@@ -10,7 +10,7 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 ## Table of Contents
 
-- [Introduction](#introduction)
+- [Introduction](#introduccion)
 - [Features](#features)
 - [Feedback](#feedback)
 - [Contributors](#contributors)
