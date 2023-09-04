@@ -1,47 +1,36 @@
-<h1 align="center"> 2023-G5-BLOCKCHAIN </h1>
-<h1 align="center"> SSCS BLOCKCHAIN: REVOLUCIÓN DE LA CADENA DE SUMINISTRO CON RASPBERRY PI 3 Y BLOCKCHAIN </h1> <br>
+<h1 align="center"> SSCS BLOCKCHAIN</h1>
+<h2 align="center">Sistema de Seguimiento de la Cadena de Suministro con blockchain</h2>
 <p align="center">
-  <a href="https://gitpoint.co/">
-    <img alt="GitPoint" title="GitPoint" src="http://i.imgur.com/VShxJHs.png" width="450">
-  </a>
+  
+  <img src="https://github.com/Juanercoli/2023-G5-BLOCKCHAIN/assets/47442578/1acaadf9-3f0e-4c5e-aa29-465ad35368c4">
 </p>
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-## Table of Contents
+## Tabla de contenido
 
-- [Introduccion](#introduccion)
-- [Features](#features)
-- [Feedback](#feedback)
-- [Contributors](#contributors)
-- [Build Process](#build-process)
-- [Backers](#backers-)
-- [Sponsors](#sponsors-)
-- [Acknowledgments](#acknowledgments)
+- [Introducción](#introducción)
+- [Características](#características)
+- [Comentarios](#comentarios)
+- [Contribuyentes](#contribuyentes)
+- [Proceso de Compilación](#proceso-de-compilación)
+- [Agradecimientos](#agradecimientos)
 
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+<!-- FIN de la tabla de contenido generada por doctoc; por favor, mantén este comentario para permitir la actualización automática -->
 
-## Introduccion
-
-## Features
-
-## Feedback
-
-Feel free to send us feedback on [Twitter](https://twitter.com/gitpointapp) or [file an issue](https://github.com/gitpoint/git-point/issues/new). Feature requests are always welcome. If you wish to contribute, please take a quick look at the [guidelines](./CONTRIBUTING.md)!
-
-If there's anything you'd like to chat about, please feel free to join our [Gitter chat](https://gitter.im/git-point)!
-
-## Contributors
-
-This project follows the [all-contributors](https://github.com/kentcdodds/all-contributors) specification and is brought to you by these [awesome contributors](./CONTRIBUTORS.md).
-
-## Build Process
-
-## Backers [![Backers on Open Collective](https://opencollective.com/git-point/backers/badge.svg)](#backers)
-
-## Sponsors [![Sponsors on Open Collective](https://opencollective.com/git-point/sponsors/badge.svg)](#sponsors)
+## Introducción
 
 
-## Acknowledgments
+## Características
 
-Thanks to [JetBrains](https://www.jetbrains.com) for supporting us with a [free Open Source License](https://www.jetbrains.com/buy/opensource).
+
+## Comentarios
+
+
+## Contribuyentes
+
+
+## Proceso de Compilación
+
+
+## Agradecimientos
