@@ -1,0 +1,13 @@
+flask
+flask-login
+flask-sqlalchemy
+flask-migrate
+flask-wtf
+python-dotenv
+Werkzeug==2.3.3
+psycopg2
+requests
+flask-socketio
+flask mqtt
+eventlet
+flask-cors

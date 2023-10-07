@@ -1,0 +1,197 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+
+<h1> Escaner RFID </h1>
+<form action="" method="POST">
+    {{ form.hidden_tag() }}
+    {{ form.rfid_tag.label }} {{ form.rfid_tag(size=32) }}
+    {{ form.llenar_boton }}
+    {{ form.enviar_boton }}
+</form>
+    
+<div class="popup">
+    <img src="https://media.geeksforgeeks.org/wp-content/uploads/20210428125647/barcode1-300x158.png">
+</div>
+
+<div class="popup-2">
+    <div id="tiempo_restante_timeout"></div>
+    <button id="cerrarPopupBtn">Cerrar Popup</button>
+</div>
+
+<div id="overlay"></div>
+
+<style>
+
+#overlay {
+content: "";
+position: fixed;
+z-index: 1;
+min-height: 100vh;
+width: 100%;
+left: 0;
+top: 0;
+background: rgba(0,0,0, .5);
+display: none;
+}
+
+.popup {
+border-radius: 16px;
+position: relative;
+height: 200px;
+
+width: 35%;
+z-index: 2;
+background: #ffff;
+margin: auto;
+border: 2px solid black;
+
+display: flex;
+flex-direction: row;
+flex-wrap: wrap;
+justify-content: center;
+align-items: center;
+display: none;
+}
+
+.popup-2 {
+border-radius: 8px;
+position: relative;
+height: 20px;
+
+width: 35%;
+z-index: 2;
+background: #ffff;
+margin: auto;
+border: 2px solid black;
+
+display: flex;
+flex-direction: row;
+flex-wrap: wrap;
+justify-content: center;
+align-items: center;
+display: none;
+
+}
+.popup::after {
+border-radius: 16px;
+display:relative;
+content:"ESCANEANDO RFID...";
+text-align: center;
+position: absolute;
+background-color: lightgreen;
+margin: 10px;
+padding: 5px;
+width: 80%;
+border: 2px solid black;
+
+animation: MoveUpDown 3s ease-in-out infinite;
+}
+      
+
+@keyframes MoveUpDown {
+    0% {
+        transform: translateY(-70px);
+    }
+    50% {
+        transform: translateY(70px);
+    }
+    100% {
+        transform: translateY(-70px)
+    }
+}
+
+
+
+</style>
+
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.socket.io/4.6.0/socket.io.min.js" integrity="sha384-c79GN5VsunZvi+Q/WObgk2in0CbZsHnjEqvFxC5DxHn9lTfNce2WW6h2pH6u/kF+" crossorigin="anonymous"></script>
+
+<script type="text/javascript" charset="utf-8">
+
+$(document).ready(function() {
+    var socket = io.connect('http://' + document.domain + ':' + location.port);
+    console.log(socket);
+    subscribeToChannel('heartbeat');
+    disableButton();
+    // Variable para rastrear el estado del mensaje de heartbeat
+    var timeoutId;  // Variable para almacenar el ID del temporizador
+
+socket.on('heartbeat', function(data) {
+    if (data.payload === 'A') {
+        // Si recibe un mensaje de heartbeat 'alive', habilita el botón
+        document.getElementById('llenar_boton').disabled = false;
+        // Reinicia el temporizador cada vez que se recibe un mensaje de heartbeat
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(disableButton, 10000);  // Deshabilita el botón después de 10 segundos
+    }
+});
+
+function disableButton() {
+    // Deshabilita el botón después de 10 segundos sin recibir un mensaje de heartbeat
+    document.getElementById('llenar_boton').disabled = true;
+}
+
+// Inicialmente, configura un temporizador para deshabilitar el botón después de 10 segundos
+timeoutId = setTimeout(disableButton, 1000);  // Deshabilita el botón después de 10 segundos inicialmente
+
+    // Función para suscribirse a un canal MQTT
+    function subscribeToChannel(channel) {
+        socket.emit('subscribe_mqtt_channel', { channel: channel });
+    }
+
+    // Función para desuscribirse de un canal MQTT
+    function unsubscribeFromChannel(channel) {
+        socket.emit('unsubscribe_mqtt_channel', { channel: channel });
+    }
+
+    // Escuchar eventos de mensajes MQTT
+    function handleMqttMessage(data) {
+        document.getElementById('rfid_tag').value = data['payload'];
+        unsubscribeFromChannel('rfid');
+        unsubscribeFromChannel('tiempo_restante_timeout');
+        $(".popup, .popup-2, #overlay").hide();
+        // Eliminar el controlador después de recibir el mensaje una vez
+        socket.off('rfid', handleMqttMessage);
+    }
+
+    // Función para manejar el clic en el botón "Llenar Campo"
+    $('#llenar_boton').click(function(event) {
+        $(".popup-2, #overlay").show();
+        $('.popup').css('display', 'flex');
+        // Evitar el envío automático del formulario
+        event.preventDefault(); 
+        subscribeToChannel('rfid');
+        subscribeToChannel('tiempo_restante_timeout');
+        // Enviar una solicitud al ESP32 cuando se hace clic en el botón
+        socket.emit('request_rfid_data', { request: 'rfid_data' });
+        // Agregar controlador para el evento 'mqtt_message'
+        socket.on('rfid', handleMqttMessage);
+    });
+
+    // Funcion para manejar el boton de cerrar-popup
+    $('#cerrarPopupBtn').click(function(event) {
+        console.log( 'tocaste');
+            unsubscribeFromChannel('rfid');
+            unsubscribeFromChannel('tiempo_restante_timeout');
+            $(".popup, .popup-2, #overlay").hide();
+    });
+
+    socket.on('tiempo_restante_timeout', function(data) {
+        var tiempoRestante = Math.trunc((data.payload)/1000);
+        if (tiempoRestante == 0) {
+            unsubscribeFromChannel('rfid');
+            unsubscribeFromChannel('tiempo_restante_timeout');
+            $(".popup, .popup-2, #overlay").hide();
+        }
+
+        // Actualizar el contenido del elemento con id "tiempo_restante"
+        document.getElementById('tiempo_restante_timeout').innerHTML = 'Tiempo Restante: ' + tiempoRestante + ' segundos';
+    });
+});
+    
+</script>
+
+{% endblock %}
