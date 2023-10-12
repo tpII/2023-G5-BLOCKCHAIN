@@ -1,0 +1,94 @@
+:root {
+    --primary: #F5DD00;
+    --secondary: #000000;
+    --light: #FFFFFF;
+    --gray: #EFEFEF;
+    --purple: #800080;
+}
+
+body {
+    overflow: hidden;
+    font-family: 'Mulish', sans-serif;
+    font-weight: 300;
+    color: var(--primary);
+}
+
+a {
+    text-decoration: none;
+}
+
+a:hover {
+    color: var(--primary) !important;
+    background-color: var(--secondary);
+}
+
+.text-secondary {
+    color: var(--secondary) !important;
+}
+
+.bg-primary {background-color: var(--primary) !important;}
+.bg-secondary {background-color: var(--secondary) !important;}
+.bg-light {background-color: var(--light) !important;}
+.bg-mix {background: linear-gradient(180deg, var(--light) 50%, var(--gray) 0);}
+.bg-gray {background-color: var(--gray) !important;}
+.bg-purple {background-color: var(--purple) !important;}
+.btn-primary {background-color: var(--primary) !important; color: var(--secondary) !important;}
+.btn-primary:hover {background-color: var(--secondary) !important; color: var(--primary) !important}
+.btn-secondary {background-color: var(--secondary) !important; color: var(--primary) !important;}
+.btn-secondary:hover {background-color: var(--purple) !important; color: var(--primary) !important}
+.btn {border: 0 !important;}
+
+#sidebar-container {
+    min-height: 100vh;
+}
+
+#sidebar-container .logo {
+    padding: .875rem 1.25rem;
+}
+
+#sidebar-container .menu {
+    width: 18rem;
+}
+
+.btn-search {
+    right: 8px;
+}
+
+.avatar {
+    object-fit: cover;
+    height: 35px;
+    width: 35px;
+}
+
+.content {
+    overflow-y: auto;
+    height: 100vh;
+    padding-bottom: 5rem;
+}
+
+.stat {
+    border-right: 1px solid var(--grey);
+}
+
+.link {
+    color: var(--primary) !important; 
+    background-color: var(--secondary);    
+}
+
+.link:hover {
+    color: var(--primary) !important;
+    background-color: var(--purple);    
+}
+
+.dropdown-link:hover {
+    background-color: var(--secondary);
+}
+
+@media (max-width: 768px) {
+    #sidebar-container {
+        display: none;
+    }
+    .stat {
+        border: 0;
+    }
+}

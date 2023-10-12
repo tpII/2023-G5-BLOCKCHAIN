@@ -47,6 +47,7 @@ def login():
 @app.route('/logout')
 def logout():
     logout_user()
+    flash('Usted ha cerrado la sesión')
     return redirect(url_for('index'))
 
 # Registro de usuarios

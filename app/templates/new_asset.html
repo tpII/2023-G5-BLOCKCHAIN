@@ -1,14 +1,12 @@
 {% extends "base.html" %}
 
 {% block content %}
-
-
 <h1> Escaner RFID </h1>
 <form action="" method="POST">
     {{ form.hidden_tag() }}
     {{ form.rfid_tag.label }} {{ form.rfid_tag(size=32) }}
-    {{ form.llenar_boton }}
-    {{ form.enviar_boton }}
+    {{ form.llenar_boton(class="btn btn-primary") }}
+    {{ form.enviar_boton(class="btn btn-secondary") }}
 </form>
     
 <div class="popup">
@@ -125,12 +123,12 @@ socket.on('heartbeat', function(data) {
         document.getElementById('llenar_boton').disabled = false;
         // Reinicia el temporizador cada vez que se recibe un mensaje de heartbeat
         clearTimeout(timeoutId);
-        timeoutId = setTimeout(disableButton, 10000);  // Deshabilita el botón después de 10 segundos
+        timeoutId = setTimeout(disableButton, 3000);  // Deshabilita el botón después de 3 segundos
     }
 });
 
 function disableButton() {
-    // Deshabilita el botón después de 10 segundos sin recibir un mensaje de heartbeat
+    // Deshabilita el botón para escanear el RFID
     document.getElementById('llenar_boton').disabled = true;
 }
 
@@ -151,7 +149,6 @@ timeoutId = setTimeout(disableButton, 1000);  // Deshabilita el botón después 
     function handleMqttMessage(data) {
         document.getElementById('rfid_tag').value = data['payload'];
         unsubscribeFromChannel('rfid');
-        unsubscribeFromChannel('tiempo_restante_timeout');
         $(".popup, .popup-2, #overlay").hide();
         // Eliminar el controlador después de recibir el mensaje una vez
         socket.off('rfid', handleMqttMessage);
@@ -164,9 +161,8 @@ timeoutId = setTimeout(disableButton, 1000);  // Deshabilita el botón después 
         // Evitar el envío automático del formulario
         event.preventDefault(); 
         subscribeToChannel('rfid');
-        subscribeToChannel('tiempo_restante_timeout');
-        // Enviar una solicitud al ESP32 cuando se hace clic en el botón
-        socket.emit('request_rfid_data', { request: 'rfid_data' });
+        // Encender escaner RFID
+        socket.emit('rfid_request', { request: 'ON' });
         // Agregar controlador para el evento 'mqtt_message'
         socket.on('rfid', handleMqttMessage);
     });
@@ -174,21 +170,11 @@ timeoutId = setTimeout(disableButton, 1000);  // Deshabilita el botón después 
     // Funcion para manejar el boton de cerrar-popup
     $('#cerrarPopupBtn').click(function(event) {
         console.log( 'tocaste');
-            unsubscribeFromChannel('rfid');
-            unsubscribeFromChannel('tiempo_restante_timeout');
-            $(".popup, .popup-2, #overlay").hide();
-    });
 
-    socket.on('tiempo_restante_timeout', function(data) {
-        var tiempoRestante = Math.trunc((data.payload)/1000);
-        if (tiempoRestante == 0) {
             unsubscribeFromChannel('rfid');
-            unsubscribeFromChannel('tiempo_restante_timeout');
+            // Apagar escaner RFID
+            socket.emit('rfid_request', { request: 'OFF' });
             $(".popup, .popup-2, #overlay").hide();
-        }
-
-        // Actualizar el contenido del elemento con id "tiempo_restante"
-        document.getElementById('tiempo_restante_timeout').innerHTML = 'Tiempo Restante: ' + tiempoRestante + ' segundos';
     });
 });
     

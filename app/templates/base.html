@@ -1,6 +1,8 @@
 <!doctype html>
 <html>
     <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">    
         {% if title %}
         <title>{{ title }} - supply-chain</title>
         {% else %}
@@ -8,26 +10,55 @@
         {% endif %}
     </head>
     <body>
-        <div>
-            supply-chain
-            <a href="{{ url_for('index') }}">Home</a>
-            {% if current_user.is_anonymous %}
-            <a href="{{ url_for('login') }}">Login</a>
-            {% else %}
-            <a href="{{ url_for('new_asset') }}">New asset</a>
-            <a href="{{ url_for('logout') }}">Logout</a>
+
+        <!-- Dashboard -->
+        <div class="d-flex">
+            <!-- Sidebar -->
+            {% if not current_user.is_anonymous %}
+                {% include 'base_partials/sidebar.html' %}    
             {% endif %}
+
+            <!-- Contenido a la derecha-->
+            <div class="w-100"> 
+                <!-- Navbar -->
+                {% if not current_user.is_anonymous %}
+                    {% include 'base_partials/navbar.html' %}
+                {% endif %}
+
+                <!-- Flash messages -->
+                {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    {% for message in messages %}
+                    <div class="alert alert-warning alert-dismissible fade show position-fixed bottom-0 end-0" role="alert">
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        {{ message }}
+                    </div>
+
+                    {% endfor %}
+                {% endif %}
+
+                <!-- Contenido -->
+                {% block content %}{% endblock %}
+
+
+            {% endwith %}
+            </div>
         </div>
-        <hr>
-        {% with messages = get_flashed_messages() %}
-        {% if messages %}
-        <ul>
-            {% for message in messages %}
-            <li>{{ message }}</li>
-            {% endfor %}
-        </ul>
-        {% endif %}
-        {% endwith %}
-        {% block content %}{% endblock %}
+        
+        <!-- Scripts -->
+        <!-- JQuery -->
+        <script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+        <!-- Bootstrap offline -->
+        <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap-offline/css/bootstrap.min.css') }}">
+        <script src="{{ url_for('static', filename='bootstrap-offline/js/bootstrap.bundle.min.js') }}"></script>
+        <!-- Ionicons -->
+        <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+        <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+        <!-- Google fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@300;700&display=swap" rel="stylesheet">
+        <!-- Hoja de estilos -->
+        <link rel="stylesheet" href="{{ url_for('static', filename='/css/style.css') }}">
     </body>
 </html>
