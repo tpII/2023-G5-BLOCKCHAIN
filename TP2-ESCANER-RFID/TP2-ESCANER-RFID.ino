@@ -7,13 +7,13 @@
 
 /* RED WiFi*/
 // Nombre de red
-const char* ssid = "Fibertel WiFi837 2.4GHz";  
+const char* ssid = "proyecto";  
 // Contraseña de red
 const char* password = "42675077";  
 
 /* MQTT */
 // Direccion IP del servidor MQTT
-const char* mqtt_server = "192.168.0.190";  
+const char* mqtt_server = "192.168.1.118";  
 // Puerto MQTT predeterminado
 const int mqtt_port = 1883;  
 
@@ -117,7 +117,8 @@ void setup_wifi() {
   // Aviso de conexión establecida
   Serial.println("Conexión WiFi establecida");
   // Imprimo dirección IP del dispositivo IOT
-  Serial.println("Dirección IP: " + WiFi.localIP());
+  Serial.print("Dirección IP: ");
+  Serial.println(WiFi.localIP());
 }
 
 // Establecer función de callback para protocolo MQTT
