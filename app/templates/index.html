@@ -9,11 +9,8 @@
                 <div class="row">
                     <div class="col-lg-9">
                         <h1 class="fw-bold text-secondary">Bienvenido {{ current_user.username.capitalize() }}</h1>
-                        <h3 class="fw-bold text-secondary">Rol: Administrador</h3>
+                        <h3 class="fw-bold text-secondary">Rol: {{ current_user.role }}</h3>
                         <p class="led text-body-secondary text-secondary">Revisa la última información</p>
-                    </div>
-                    <div class="col-lg-3 d-flex">
-                        <button class="btn btn-primary w-100 align-self-center">Descargar reporte</button>
                     </div>
                 </div>
             </div>
@@ -58,10 +55,56 @@
         -->
 
         <!-- Sección a la derecha -->
+        {% if response %}
+            <div class="table-responsive">
+                <!-- Hacer algo con la respuesta exitosa -->
+                <table class="table table-sm table-bordered border-secondary">
+                    <thead class="table-secondary">
+                        <tr>
+                            <th>ID</th>
+                            <th>Precio</th>
+                            <th>Bodega</th>
+                            <th>Uva</th>
+                            <th>Año</th>
+                            <th>Temperatura</th>
+                            <th>Humedad</th>
+                            <th>Latitud</th>
+                            <th>Longitud</th>
+                            <th>Editar</th>
+                            <th>Transferir</th>
+                            <th>Historial</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for asset in response %}
+                            <tr>
+                                <td>{{ asset.ID }}</td>
+                                <td>{{ asset.Price }}</td>
+                                <td>{{ asset.Winery }}</td>
+                                <td>{{ asset.Varietal }}</td>
+                                <td>{{ asset.Year }}</td>
+                                <td>{{ asset.Temperature }}</td>
+                                <td>{{ asset.Humidity }}</td>
+                                <td>{{ asset.Latitude }}</td>
+                                <td>{{ asset.Longitude }}</td>
+                                <td><a href="{{ url_for('update_asset', asset_id=asset.ID) }}" class="btn btn-primary">Editar</a></td>
+                                <td><a href="{{ url_for('transfer_asset', asset_id=asset.ID) }}" class="btn btn-primary">Transferir</a></td>
+                                <td><a href="{{ url_for('asset_history', asset_id=asset.ID) }}" class="btn btn-primary">Historial</a></td>
+                                <!-- Agrega más celdas según las claves que desees mostrar -->
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% endif %}
+    
+    
+    <!--
+
         <section class="bg-gray">
             <div class="container">
                 <div class="row">
-                    <!-- ChartJS-->
+                    ChartJS
                     <div class="col-lg-7 my-3">
                         <div class="card rounded-0">
                             <div class="card-header bg-light">
@@ -72,7 +115,7 @@
                             </div>
                         </div>
                     </div>
-                    <!-- Transacciones recientes -->
+                     Transacciones recientes
                     <div class="col-lg-5 my-3">
                         <div class="card rounded-0">
                             <div class="card-header bg-light">
@@ -126,7 +169,8 @@
             </div>
         </section>
     </div>
-    <!-- Chart.js -->
+     Chart.js 
+
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         const ctx = document.getElementById('myChart');
@@ -159,4 +203,5 @@
             }
         });
         </script>
+        !-->
 {% endblock %}

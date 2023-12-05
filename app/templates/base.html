@@ -8,6 +8,20 @@
         {% else %}
         <title>supply-chain</title>
         {% endif %}
+        <!-- JQuery -->
+        <script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+        <!-- Bootstrap offline -->
+        <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap-offline/css/bootstrap.min.css') }}">
+        <script src="{{ url_for('static', filename='bootstrap-offline/js/bootstrap.bundle.min.js') }}"></script>
+        <!-- Ionicons -->
+        <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+        <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+        <!-- Google fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@300;700&display=swap" rel="stylesheet">
+        <!-- Hoja de estilos -->
+        <link rel="stylesheet" href="{{ url_for('static', filename='/css/style.css') }}">
     </head>
     <body>
 
@@ -45,20 +59,6 @@
             </div>
         </div>
         
-        <!-- Scripts -->
-        <!-- JQuery -->
-        <script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-        <!-- Bootstrap offline -->
-        <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap-offline/css/bootstrap.min.css') }}">
-        <script src="{{ url_for('static', filename='bootstrap-offline/js/bootstrap.bundle.min.js') }}"></script>
-        <!-- Ionicons -->
-        <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-        <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-        <!-- Google fonts -->
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@300;700&display=swap" rel="stylesheet">
-        <!-- Hoja de estilos -->
-        <link rel="stylesheet" href="{{ url_for('static', filename='/css/style.css') }}">
+     <!-- Scripts -->
     </body>
 </html>

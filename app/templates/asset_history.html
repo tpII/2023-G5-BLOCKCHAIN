@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% if response %}
+<div class="table-responsive">
+    <!-- Hacer algo con la respuesta exitosa -->
+    <table class="table table-sm table-bordered border-secondary">
+        <thead class="table-secondary">
+            <tr>
+                <th>ID</th>
+                <th>Dueño</th>
+                <th>Precio</th>
+                <th>Bodega</th>
+                <th>Uva</th>
+                <th>Año</th>
+                <th>Temperatura</th>
+                <th>Humedad</th>
+                <th>Latitud</th>
+                <th>Longitud</th>
+                <th>Tiempo</th>
+                <th>TX id</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for asset in response %}
+                <tr>
+                    <td>{{ asset.data.ID }}</td>
+                    <td>{{ asset.data.Owner }}</td>
+                    <td>{{ asset.data.Price }}</td>
+                    <td>{{ asset.data.Winery }}</td>
+                    <td>{{ asset.data.Varietal }}</td>
+                    <td>{{ asset.data.Year }}</td>
+                    <td>{{ asset.data.Temperature }}</td>
+                    <td>{{ asset.data.Humidity }}</td>
+                    <td>{{ asset.data.Latitude }}</td>
+                    <td>{{ asset.data.Longitude }}</td>
+                    <td>{{ asset.timestamp }}</td>
+                    <td>{{ asset.txid }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endif %}
+
+{% endblock %}

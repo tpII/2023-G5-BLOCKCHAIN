@@ -28,6 +28,10 @@
                     <span style="color: red;">[{{ error }}]</span>
                     {% endfor %}
                 </p>
+                <p>
+                    {{ form.role.label }}<br>
+                    {{ form.role }}
+                </p>
                 <p>{{ form.submit(class="btn btn-secondary") }}</p>
             </form>
         </div>

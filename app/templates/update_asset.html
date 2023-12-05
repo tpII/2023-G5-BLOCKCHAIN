@@ -2,7 +2,7 @@
 
 {% block content %}
 <div class="content">
-<h1>  Nuevo asset </h1>
+<h1>  Actualizar asset </h1>
 
 <div class="popup">
     <img src="https://media.geeksforgeeks.org/wp-content/uploads/20210428125647/barcode1-300x158.png">
@@ -29,15 +29,7 @@
 
 <form action="" method="POST" class="d-flex flex-column text-secondary m-2 gap-3">
     {{ form.hidden_tag() }}
-    <div class="d-flex gap-3">
-    {{ form.rfid_tag.label(style="width:100px;") }} {{ form.rfid_tag(size=32) }}
-    {{ form.llenar_boton_rfid(class="btn btn-primary") }}
-    {% if form.rfid_tag.errors %}
-    <div class="text-danger">
-        {{ form.rfid_tag.errors|join(', ') }}
-    </div>
-    {% endif %}
-    </div>
+    {{ form.owner() }}
     <div class="d-flex gap-3">
     {{ form.precio.label(style="width:100px;") }} {{ form.precio(size=32) }}
     </div>
@@ -107,7 +99,7 @@
     {% endif %}
 
     <div class="d-flex gap-3">
-    {{ form.enviar_boton(class="btn btn-secondary") }}
+    {{ form.actualizar_boton(class="btn btn-secondary") }}
     </div>
 </form>
 
@@ -218,7 +210,6 @@ $(document).ready(function() {
 socket.on('heartbeat', function(data) {
     if (data.payload === 'A') {
         // Si recibe un mensaje de heartbeat 'alive', habilita el botón
-        document.getElementById('llenar_boton_rfid').disabled = false;
         document.getElementById('llenar_boton_dht').disabled = false;
         // Reinicia el temporizador cada vez que se recibe un mensaje de heartbeat
         clearTimeout(timeoutId);
@@ -228,7 +219,6 @@ socket.on('heartbeat', function(data) {
 
 function disableButton() {
     // Deshabilita el botón para escanear el RFID y DHT
-    document.getElementById('llenar_boton_rfid').disabled = true;
     document.getElementById('llenar_boton_dht').disabled = true;
 }
 
@@ -244,28 +234,6 @@ timeoutId = setTimeout(disableButton, 1000);  // Deshabilita el botón después 
     function unsubscribeFromChannel(channel) {
         socket.emit('unsubscribe_mqtt_channel', { channel: channel });
     }
-
-    // Escuchar eventos de mensajes RFID
-    function handleRFIDMessage(data) {
-        document.getElementById('rfid_tag').value = data['payload'];
-        unsubscribeFromChannel('rfid');
-        $(".popup, .popup-2, #overlay").hide();
-        // Eliminar el controlador después de recibir el mensaje una vez
-        socket.off('rfid', handleRFIDMessage);
-    }
-
-    // Función para manejar el clic en el botón "ESCANEAR RFID"
-    $('#llenar_boton_rfid').click(function(event) {
-        $("#overlay").show();
-        $('.popup, .popup-2').css('display', 'flex');
-        // Evitar el envío automático del formulario
-        event.preventDefault(); 
-        subscribeToChannel('rfid');
-        // Encender escaner RFID
-        socket.emit('rfid_request', { request: 'ON' });
-        // Agregar controlador para el evento 'mqtt_message'
-        socket.on('rfid', handleRFIDMessage);
-    });
 
     // Escuchar eventos de mensajes TEMP
     function handleTempMessage(data) {
@@ -295,14 +263,6 @@ timeoutId = setTimeout(disableButton, 1000);  // Deshabilita el botón después 
         socket.on('hum', handleHumMessage);
         // Desactivar escaner DHT
         socket.emit('dht_request', { request: 'OFF' });
-    });
-
-    // Funcion para manejar el boton de cerrar-popup
-    $('#cerrarPopupBtn').click(function(event) {
-        unsubscribeFromChannel('rfid');
-        // Apagar escaner RFID
-        socket.emit('rfid_request', { request: 'OFF' });
-        $(".popup, .popup-2, #overlay").hide();
     });
 });
     

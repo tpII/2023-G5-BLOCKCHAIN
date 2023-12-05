@@ -22,11 +22,19 @@ mqtt_handlers = {}
 def handle_rfid_message(data):
     socketio.emit('rfid', data=data)
 
+def handle_temp_message(data):
+    socketio.emit('temp', data=data)
+
+def handle_hum_message(data):
+    socketio.emit('hum', data=data)
+
 def handle_heartbeat_message(data):
     socketio.emit('heartbeat', data=data)
 
 # Registrar las funciones de manejo para cada canal MQTT
 mqtt_handlers['rfid'] = handle_rfid_message
+mqtt_handlers['temp'] = handle_temp_message
+mqtt_handlers['hum'] = handle_hum_message
 mqtt_handlers['heartbeat'] = handle_heartbeat_message
 
 # Cuando llegan mensajes
@@ -47,6 +55,14 @@ def handle_rfid_request(data):
     print(data['request'])
     # Enviar un mensaje MQTT al ESP32 para escanear o detener el escaneo RFID
     mqtt.publish('rfid_request', data['request'])
+
+# Solicitud de escaneo DHT
+@socketio.on('dht_request')
+def handle_rfid_request(data):
+    print('tocaste')
+    print(data['request'])
+    # Enviar un mensaje MQTT al ESP32 para escanear o detener el escaneo DHT
+    mqtt.publish('dht_request', data['request'])
 
 # Funcion genérica para subscribirse a un canal
 @socketio.on('subscribe_mqtt_channel')

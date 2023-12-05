@@ -23,6 +23,7 @@
                 </p>
                 <p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
                 <p>{{ form.submit(class="btn btn-secondary") }}</p>
+                <p>{{ form.client_login(class="btn btn-secondary") }}</p>
             </form>
             <p>Sos nuevo? <a href="{{ url_for('register') }}" class="link">Clickeando aqui podes registrate!</a></p>
         </div>
