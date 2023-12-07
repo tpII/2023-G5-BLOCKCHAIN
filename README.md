@@ -202,7 +202,14 @@ peer chaincode invoke -o localhost:7050 --ordererTLSHostnameOverride orderer.exa
 
 <h2>API REST</h2>
 
-<p>Finalizadas las pruebas del chaincode se puede levantar el servidor API REST y el servidor REDIS (que se encarga de las colas de transacciones):</p>
+<p>Finalizadas las pruebas del chaincode se puede levantar el servidor API REST y el servidor REDIS (que se encarga de la cola de tareas). Ir a la carpeta rest-api-typescript e instalar las dependencias y realizar el build:</p>
+
+```sh
+$ cd ..
+$ cd rest-api-typescript
+$ npm install
+$ npm run build
+```
 
 </details>
 
