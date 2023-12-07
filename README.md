@@ -314,7 +314,7 @@ $ npm run start:dev
 
 <h1 id="bitacora">📖Bitácora</h1>
 
-<p>Se realizó un registro de todos los avances del proyecto en la <a src="https://github.com/tpII/2023-G5-BLOCKCHAIN/wiki/Bitacora">Bitacora</a>.</p>
+<p>Se realizó un registro de todos los avances del proyecto en la <a href="https://github.com/tpII/2023-G5-BLOCKCHAIN/wiki/Bitacora">Bitacora</a>.</p>
 
 <h1 id="authors">✒️ Autores</h1>
 
