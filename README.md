@@ -119,6 +119,6 @@ El Sistema de Seguimiento de la Cadena de Suministro (SSCS) es una demostración
 
 <details>
   <summary>Prerequisitos-ESP8266</summary>
-  <p>Se requiere descargar el .ino contenido en la carpeta /</p>
+  <p>Se requiere descargar el .ino contenido en <a href="https://github.com/tpII/2023-G5-BLOCKCHAIN/blob/main/TP2-ESCANER-RFID/TP2-ESCANER-RFID.ino">TP2-ESCANER-RFID</a>, configurarlo con los parametros de WiFi y broker MQTT correspondientes, configurar los pines de los sensores que se utilizan y finalmente cargar el programa al microcontrolador.</p>
 </details>
 
