@@ -1,9 +1,12 @@
+<!-- Logo -->
 <div>
   <img src="https://github.com/tpII/2023-G5-BLOCKCHAIN/assets/47442578/d5328f24-f606-41b5-97ea-98c57fc38ca9">
 </div>
 
+<!-- Titulo del proyecto -->
 # Proyecto G5 - Sistema de Seguimiento de la Cadena de Suministro utilizando Hyperledger Fabric
 
+<!-- Descripción del proyecto -->
 El Sistema de Seguimiento de la Cadena de Suministro (SSCS) es una demostración del potencial de la tecnología blockchain para proporcionar visibilidad, transparencia y trazabilidad en cada etapa del proceso logístico. Utilizando la tecnología de Hyperledger Fabric, el proyecto tiene como objetivo la demostración de cómo se puede transformar la cadena de suministro convencional en un modelo eficiente, seguro y confiable.
 
 <details>
@@ -69,3 +72,13 @@ El Sistema de Seguimiento de la Cadena de Suministro (SSCS) es una demostración
   </ol>
 </details>
 
+<!-- Tabla de contenidos -->
+<h2 id="table-of-contents"> :book: Tabla de contenidos</h2>
+
+<details open="open">
+  <summary>Tabla de contenidos</summary>
+  <ol>
+    <li><a href="#prerequisites"> ➤ Prerequisitos</a></li>
+    <li><a href="#contributors"> ➤ Contributors</a></li>
+  </ol>
+</details>
