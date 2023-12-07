@@ -83,6 +83,7 @@ El Sistema de Seguimiento de la Cadena de Suministro (SSCS) es una demostración
     <li><a href="#prerequisites-esp8266"> ➤ Prerequisitos-ESP8266</a></li>
     <li><a href="#prerequisites-app-web"> ➤ Prerequisitos-Aplicación Web</a></li>
     <li><a href="#installation-hyperledger-fabric"> ➤ Instalación-Hyperledger Fabric</a></li>
+    <li><a href="#installation-app-web"> ➤ Instalación-Aplicación Web</a></li>
     <li><a href="#contributors"> ➤ Contributors</a></li>
   </ol>
 </details>
@@ -126,10 +127,10 @@ El Sistema de Seguimiento de la Cadena de Suministro (SSCS) es una demostración
 ---
 
 <!-- Prerequisitos APLICACION WEB -->
-<h1 id="prerequisites-app-web"> 🕸️ Prerequisitos-Aplicación web</h1>
+<h1 id="prerequisites-app-web"> 🕸️ Prerequisitos-Aplicación Web</h1>
 
 <details>
-  <summary>Prerequisitos-Aplicación web</summary>
+  <summary>Prerequisitos-Aplicación Web</summary>
   <p>Se requiere la última versión de python <a href="https://www.python.org/">https://www.python.org/</a>.</p>
   <p>Se requiere tener instalada la última versión de PostgreSQL <a href="https://www.postgresql.org/">https://www.postgresql.org/</a> configurada con una base de datos llamada supply-chain-platform (de preferencia).</p>
 </details>
@@ -228,5 +229,48 @@ $ npm run start:dev
 
 > Las API-KEYS correspondientes a cada organización estan en el archivo .env y deben ser enviadas en la cabecera de la petición HTTP al servidor REST para que la misma sea autorizada.
 
+</details>
+
+---
+
+<!-- Instalación APLICACION WEB -->
+<h1 id="installation-app-web"> 🕸️ Instalación-Aplicación Web</h1>
+
+<details>
+  <summary>Instalación-Aplicación Web</summary>
+  <p>En el directorio raíz, crear el entorno virtual:</p>
+
+  ```sh
+  python -m venv venv
+  ```
+
+  <p>Activar el entorno virtual:</p>
+  
+  ```sh
+  # venv\Scripts\activate # Windows
+  $ ./venv\Scripts\activate # Linux
+  ```
+
+  <p>Instalar dependencias freezadas:</p>
+
+  ```sh
+  $ pip install -r requirements-freezed.txt
+  ```
+
+  <p>Tener encendido el servidor de DB.</p>
+
+  <p>Configurar el archivo .env con las credenciales correspondientes.</p>
+
+  <p>Correr las migraciones para tener el sistema de usuarios:</p>
+
+  ```sh
+  $ flask db upgrade
+  ```
+
+  <p>Iniciar el servidor de la aplicación web:</p>
+
+  ```sh
+  flask run -h 0.0.0.0 --debug
+  ```
 </details>
 
