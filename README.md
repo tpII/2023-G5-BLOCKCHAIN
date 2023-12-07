@@ -141,11 +141,68 @@ El Sistema de Seguimiento de la Cadena de Suministro (SSCS) es una demostración
 
 <details>
   <summary>Instalación-Hyperledger Fabric</summary>
-  <p>El directorio principal de hyperledger fabric es <a href="https://github.com/tpII/2023-G5-BLOCKCHAIN/tree/main/fabric-supply-chain">fabric-supply-chain</a>, estando allí, debe acceder al directorio test-network</p>
+  <p>El directorio principal de Hyperledger Fabric es <a href="https://github.com/tpII/2023-G5-BLOCKCHAIN/tree/main/fabric-supply-chain">fabric-supply-chain</a>, estando allí, debe acceder al directorio test-network:</p>
   
-  ```
+  ```sh
   $ cd test-network
   ```
+
+<p>Luego debe ejecutar el comando:</p>
+
+```sh
+$ ./network.sh up createChannel -c mychannel -ca -s couchdb
+```
+
+<p>Esto genera 2 organizaciones, cada una con un peer, un single raft ordering service y crea un canal llamado mychannel, donde une a los peers de las 2 organizaciones. Tambien crea una CA por cada organización.</p>
+
+<p>Para este sistema se requieren 3 organizaciones, por lo tanto:</p>
+
+```sh
+$ cd addOrg3
+$ ./addOrg3.sh up -c mychannel -ca -s couchdb
+```
+
+<p>Volver a la carpeta test-network y hacer el deploy del chaincode:</p>
+
+```sh
+$ cd ..
+$ ./network.sh deployCC -ccn basic -ccp ../chaincode-typescript/ -ccl typescript
+```
+
+<p>Ahora se puede probar el chaincode, se pueden setear las variables para actuar como organización 1:</p>
+
+```sh
+export PATH=${PWD}/../bin:$PATH          # binarios
+export FABRIC_CFG_PATH=$PWD/../config/   # config
+# Environment variables for Org1
+export CORE_PEER_TLS_ENABLED=true
+export CORE_PEER_LOCALMSPID="Org1MSP"
+export CORE_PEER_TLS_ROOTCERT_FILE=${PWD}/organizations/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt
+export CORE_PEER_MSPCONFIGPATH=${PWD}/organizations/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp
+export CORE_PEER_ADDRESS=localhost:7051
+```
+
+<p>Para inicializar la ledger con assets precargados:</p>
+
+```sh
+peer chaincode invoke -o localhost:7050 --ordererTLSHostnameOverride orderer.example.com --tls --cafile "${PWD}/organizations/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem" -C mychannel -n basic --peerAddresses localhost:7051 --tlsRootCertFiles "${PWD}/organizations/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt" --peerAddresses localhost:9051 --tlsRootCertFiles "${PWD}/organizations/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/ca.crt" -c '{"function":"InitLedger","Args":[]}'
+```
+
+<p>Para obtener todos los assets:</p>
+
+```sh
+peer chaincode query -C mychannel -n basic -c '{"Args":["GetAllAssets"]}'
+```
+
+<p>Para crear un asset:</p>
+
+```sh
+peer chaincode invoke -o localhost:7050 --ordererTLSHostnameOverride orderer.example.com --tls --cafile "${PWD}/organizations/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem" -C mychannel -n basic --peerAddresses localhost:7051 --tlsRootCertFiles "${PWD}/organizations/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt" --peerAddresses localhost:9051 --tlsRootCertFiles "${PWD}/organizations/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/ca.crt" -c '{"Args":["CreateAsset","admin","wine6", "blanco", "Org1MSP", "2500", "52.9393", "42", "Las cabras", "2010", "52.9393", "52.9393"]}'
+```
+
+<h2>API REST</h2>
+
+<p>Finalizadas las pruebas del chaincode se puede levantar el servidor API REST y el servidor REDIS (que se encarga de las colas de transacciones):</p>
 
 </details>
 
