@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% if response %}
+<div id="map" style="height:250px;"></div>
+<div class="table-responsive overflow-scroll" style="height:300px;width:75vw;">
+    <!-- Hacer algo con la respuesta exitosa -->
+    <table class="table table-sm table-bordered border-secondary">
+        <thead class="table-secondary">
+            <tr>
+                <th>ID</th>
+                <th>Etapa</th>
+                <th>Precio</th>
+                <th>Bodega</th>
+                <th>Uva</th>
+                <th>Año</th>
+                <th>Temperatura</th>
+                <th>Humedad</th>
+                <th>Latitud</th>
+                <th>Longitud</th>
+                <th>Tiempo</th>
+                <th>TX id</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for asset in response %}
+                <tr>
+                    <td>{{ asset.data.ID }}</td>
+                    <td>{{ asset.data.Owner }}</td>
+                    <td>{{ asset.data.Price }}</td>
+                    <td>{{ asset.data.Winery }}</td>
+                    <td>{{ asset.data.Varietal }}</td>
+                    <td>{{ asset.data.Year }}</td>
+                    <td>{{ asset.data.Temperature }}</td>
+                    <td>{{ asset.data.Humidity }}</td>
+                    <td>{{ asset.data.Latitude }}</td>
+                    <td>{{ asset.data.Longitude }}</td>
+                    <td>{{ asset.timestamp }}</td>
+                    <td>{{ asset.txid }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endif %}
+
+
+<script>
+   try {
+
+        '{% if coordenadas is defined %}'
+            var coordenadas = JSON.parse('{{ coordenadas | tojson | safe }}');
+            console.log(coordenadas)
+        '{% else %}'
+            var coordenadas = [];  // O cualquier valor predeterminado que desees
+        '{% endif %}'
+        var map = L.map('map').setView([coordenadas[0].latitude, coordenadas[0].longitude], 12);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        // Crear una matriz de coordenadas para la polilínea
+        var ruta = coordenadas.map(function(coordenada) {
+            return [coordenada.latitude, coordenada.longitude];
+        });
+
+
+        // Crear la polilínea y añadirla al mapa
+        var polyline = L.polyline(ruta, { color: 'gray' }).addTo(map);
+
+
+        coordenadas.forEach(function(coordenada) {
+            var markerColor;
+
+            // Verifica el valor de coordenadas.owner y establece el color del marcador
+            if (coordenada.owner === 'Productor') {
+                markerColor = 'blue';
+            } else if (coordenada.owner === 'Transportador') {
+                markerColor = 'red';
+            } else if (coordenada.owner === 'Cliente') {
+                markerColor = 'green';
+            } else {
+                // Color predeterminado si no coincide con ninguna condición
+                markerColor = 'black';
+            }
+
+            var marker = L.marker([coordenada.latitude, coordenada.longitude], { icon: L.divIcon({ className: 'custom-marker', iconSize: [20, 20], iconAnchor: [10, 10], popupAnchor: [0, -10], html: `<div style="background-color: ${markerColor}; border-radius: 50%; width: 20px; height: 20px;"></div>` }) }).addTo(map);
+
+            marker.bindPopup(coordenada.time);
+        });
+
+    } catch (error) {
+        // Manejar la excepción
+        console.error('Ocurrió una excepción:', error.message);
+    }
+
+
+</script>
+
+{% endblock %}
