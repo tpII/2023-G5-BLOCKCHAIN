@@ -78,10 +78,10 @@ El Sistema de Seguimiento de la Cadena de Suministro (SSCS) es una demostración
 <details open="open">
   <summary>Tabla de contenidos</summary>
   <ol>
-    <li><a href="#prerequisites-mosquitto"> ➤ Prerequisitos: mosquitto</a></li>
-    <li><a href="#prerequisites-hyperledger-fabric"> ➤ Prerequisitos: hyperledger fabric</a></li>
-    <li><a href="#prerequisites-esp8266"> ➤ Prerequisitos: esp8266</a></li>
-    <li><a href="#prerequisites-app-web"> ➤ Prerequisitos: aplicación web</a></li>
+    <li><a href="#prerequisites-mosquitto"> ➤ Prerequisitos-MosquiTTo</a></li>
+    <li><a href="#prerequisites-hyperledger-fabric"> ➤ Prerequisitos-Hyperledger Fabric</a></li>
+    <li><a href="#prerequisites-esp8266"> ➤ Prerequisitos-ESP8266</a></li>
+    <li><a href="#prerequisites-app-web"> ➤ Prerequisitos-Aplicación Web</a></li>
     <li><a href="#contributors"> ➤ Contributors</a></li>
   </ol>
 </details>
