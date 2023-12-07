@@ -190,19 +190,19 @@ export CORE_PEER_ADDRESS=localhost:7051
 <p>Para inicializar la ledger con assets precargados:</p>
 
 ```sh
-peer chaincode invoke -o localhost:7050 --ordererTLSHostnameOverride orderer.example.com --tls --cafile "${PWD}/organizations/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem" -C mychannel -n basic --peerAddresses localhost:7051 --tlsRootCertFiles "${PWD}/organizations/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt" --peerAddresses localhost:9051 --tlsRootCertFiles "${PWD}/organizations/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/ca.crt" -c '{"function":"InitLedger","Args":[]}'
+$ peer chaincode invoke -o localhost:7050 --ordererTLSHostnameOverride orderer.example.com --tls --cafile "${PWD}/organizations/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem" -C mychannel -n basic --peerAddresses localhost:7051 --tlsRootCertFiles "${PWD}/organizations/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt" --peerAddresses localhost:9051 --tlsRootCertFiles "${PWD}/organizations/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/ca.crt" -c '{"function":"InitLedger","Args":[]}'
 ```
 
 <p>Para obtener todos los assets:</p>
 
 ```sh
-peer chaincode query -C mychannel -n basic -c '{"Args":["GetAllAssets"]}'
+$ peer chaincode query -C mychannel -n basic -c '{"Args":["GetAllAssets"]}'
 ```
 
 <p>Para crear un asset:</p>
 
 ```sh
-peer chaincode invoke -o localhost:7050 --ordererTLSHostnameOverride orderer.example.com --tls --cafile "${PWD}/organizations/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem" -C mychannel -n basic --peerAddresses localhost:7051 --tlsRootCertFiles "${PWD}/organizations/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt" --peerAddresses localhost:9051 --tlsRootCertFiles "${PWD}/organizations/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/ca.crt" -c '{"Args":["CreateAsset","admin","wine6", "blanco", "Org1MSP", "2500", "52.9393", "42", "Las cabras", "2010", "52.9393", "52.9393"]}'
+$ peer chaincode invoke -o localhost:7050 --ordererTLSHostnameOverride orderer.example.com --tls --cafile "${PWD}/organizations/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem" -C mychannel -n basic --peerAddresses localhost:7051 --tlsRootCertFiles "${PWD}/organizations/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt" --peerAddresses localhost:9051 --tlsRootCertFiles "${PWD}/organizations/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/ca.crt" -c '{"Args":["CreateAsset","admin","wine6", "blanco", "Org1MSP", "2500", "52.9393", "42", "Las cabras", "2010", "52.9393", "52.9393"]}'
 ```
 
 <h2>API REST</h2>
@@ -245,7 +245,7 @@ $ npm run start:dev
   <p>En el directorio raíz, crear el entorno virtual:</p>
 
   ```sh
-  python -m venv venv
+  $ python -m venv venv
   ```
 
   <p>Activar el entorno virtual:</p>
@@ -274,7 +274,7 @@ $ npm run start:dev
   <p>Iniciar el servidor de la aplicación web:</p>
 
   ```sh
-  flask run -h 0.0.0.0 --debug
+  $ flask run -h 0.0.0.0 --debug
   ```
 </details>
 
