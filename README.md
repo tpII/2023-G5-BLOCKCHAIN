@@ -91,8 +91,19 @@ El Sistema de Seguimiento de la Cadena de Suministro (SSCS) es una demostración
 <!-- Prerequisitos MOSQUITTO -->
 <h1 id="prerequisites-mosquitto"> 🦟 Prerequisitos-Mosquitto</h1>
 
-<p>La integración de Mosquitto en el proyecto SSCS añade una capa adicional de eficiencia y confiabilidad en la comunicación entre la aplicación web y el dispositivo IoT. Este broker MQTT gestiona la publicación y suscripción de mensajes, garantizando una transmisión de datos muy rápida.</p>
+<details>
+  <summary>Prerequisitos-Mosquitto</summary>
+  <p>La integración de Mosquitto en el proyecto SSCS añade una capa adicional de eficiencia y confiabilidad en la comunicación entre la aplicación web y el dispositivo IoT. Este broker MQTT gestiona la publicación y suscripción de mensajes, garantizando una transmisión de datos muy rápida.</p>
 
-<p>Para su instalación visitar la pagina web <a href="https://mosquitto.org/">https://mosquitto.org/</a></p>
+  <p>Para su instalación visitar la pagina web <a href="https://mosquitto.org/">https://mosquitto.org/</a></p>
+</details>
 
 ---
+
+<!-- Prerequisitos HYPERLEDGER FABRIC -->
+<h1 id="prerequisites-hyperledger-fabric"> ⛓️ Prerequisitos-Hyperledger Fabric</h1>
+
+<details>
+  <summary>Prerequisitos-Hyperledger Fabric</summary>
+  
+</details>
