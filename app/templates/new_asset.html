@@ -1,0 +1,339 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="content">
+<h1>  Nuevo asset </h1>
+
+<div class="popup">
+    <img src="https://media.geeksforgeeks.org/wp-content/uploads/20210428125647/barcode1-300x158.png">
+    <div class="popup-2">
+        <div id="tiempo_restante_timeout"></div>
+        <button id="cerrarPopupBtn">Cerrar Popup</button>
+    </div>
+</div>
+
+{% if mensaje_exito %}
+<div style="color: green;">
+    <h2>Procesado:</h2>
+    <p>{{ mensaje_exito }}</p>
+</div>
+{% endif %}
+
+
+{% if mensaje_error %}
+<div style="color:red;">
+    <h2>Error:</h2>
+    <p>{{ mensaje_error }}</p>
+</div>
+{% endif %}
+
+<form action="" method="POST" class="d-flex flex-column text-secondary m-2 gap-3">
+    {{ form.hidden_tag() }}
+    <div class="d-flex gap-3">
+    {{ form.rfid_tag.label(style="width:100px;") }} {{ form.rfid_tag(size=32) }}
+    {{ form.llenar_boton_rfid(class="btn btn-primary") }}
+    {% if form.rfid_tag.errors %}
+    <div class="text-danger">
+        {{ form.rfid_tag.errors|join(', ') }}
+    </div>
+    {% endif %}
+    </div>
+    <div class="d-flex gap-3">
+    {{ form.precio.label(style="width:100px;") }} {{ form.precio(size=32) }}
+    </div>
+    {% if form.precio.errors %}
+    <div class="text-danger">
+        {{ form.precio.errors|join(', ') }}
+    </div>
+    {% endif %}
+
+    <div class="d-flex gap-3">
+    {{ form.bodega.label(style="width:100px;") }} {{ form.bodega(size=32) }}
+    </div>
+    {% if form.bodega.errors %}
+    <div class="text-danger">
+        {{ form.bodega.errors|join(', ') }}
+    </div>
+    {% endif %}
+    <div class="d-flex gap-3">
+    {{ form.uva.label(style="width:100px;") }} {{ form.uva(size=32) }}
+    </div>
+    {% if form.uva.errors %}
+    <div class="text-danger">
+        {{ form.uva.errors|join(', ') }}
+    </div>
+    {% endif %}
+    <div class="d-flex gap-3">
+    {{ form.cosecha.label(style="width:100px;") }} {{ form.cosecha(size=32) }}
+    </div>
+    {% if form.cosecha.errors %}
+    <div class="text-danger">
+        {{ form.cosecha.errors|join(', ') }}
+    </div>
+    {% endif %}
+    <div class="d-flex gap-3">
+    {{ form.llenar_boton_dht(class="btn btn-primary") }}
+    </div>
+    <div class="d-flex gap-3">
+    {% if form.temperatura.errors %}
+    <div class="text-danger">
+        {{ form.temperatura.errors|join(', ') }}
+    </div>
+    {% endif %}
+    {{ form.temperatura.label(style="width:100px;") }} {{ form.temperatura(size=32) }}
+    {% if form.humedad.errors %}
+    <div class="text-danger">
+        {{ form.humedad.errors|join(', ') }}
+    </div>
+    {% endif %}
+    {{ form.humedad.label(style="width:100px;") }} {{ form.humedad(size=32) }}
+    </div>
+
+    <div class="d-flex gap-3">
+    {{ form.latitud.label(style="width:100px;") }} {{ form.latitud(size=32) }}
+    </div>
+    {% if form.latitud.errors %}
+    <div class="text-danger">
+        {{ form.latitud.errors|join(', ') }}
+    </div>
+    {% endif %}
+    <div class="d-flex gap-3">
+    {{ form.longitud.label(style="width:100px;") }} {{ form.longitud(size=32) }}
+    </div>
+    {% if form.longitud.errors %}
+    <div class="text-danger">
+        {{ form.longitud.errors|join(', ') }}
+    </div>
+    {% endif %}
+    <div id="map" style="height:250px;"></div>
+
+    <div class="d-flex gap-3">
+    {{ form.enviar_boton(class="btn btn-secondary") }}
+    </div>
+</form>
+
+<div id="overlay"  style="
+position: fixed;
+z-index: 1;
+min-height: 100vh;
+width: 100%;
+left: 0;
+top: 0;
+background: rgba(0,0,0, .5);
+display: none;"></div>
+
+</div>
+
+<style>​
+
+#overlay {
+content: "";
+position: fixed;
+z-index: 1;
+min-height: 100vh;
+width: 100%;
+left: 0;
+top: 0;
+background: rgba(0,0,0, .5);
+display: none;
+}
+
+.popup {
+border-radius: 16px;
+position: fixed;
+height: 200px;
+
+width: 35%;
+z-index: 2;
+background: #ffff;
+margin: auto;
+border: 2px solid black;
+
+display: flex;
+flex-direction: row;
+flex-wrap: wrap;
+justify-content: center;
+align-items: center;
+display: none;
+}
+
+.popup-2 {
+border-radius: 8px;
+position: relative;
+height: 20px;
+
+width: 35%;
+z-index: 2;
+margin: auto;
+
+display: flex;
+flex-direction: row;
+flex-wrap: wrap;
+justify-content: center;
+align-items: center;
+display: none;
+
+}
+.popup::after {
+border-radius: 16px;
+display:relative;
+content:"ESCANEANDO RFID...";
+text-align: center;
+position: absolute;
+background-color: lightgreen;
+margin: 10px;
+padding: 5px;
+width: 80%;
+border: 2px solid black;
+
+animation: MoveUpDown 3s ease-in-out infinite;
+}
+      
+
+@keyframes MoveUpDown {
+    0% {
+        transform: translateY(-70px);
+    }
+    50% {
+        transform: translateY(70px);
+    }
+    100% {
+        transform: translateY(-70px)
+    }
+}
+</style>
+
+<script type="text/javascript" charset="utf-8">
+
+$(document).ready(function() {
+    var socket = io.connect('http://' + document.domain + ':' + location.port);
+    console.log(socket);
+    subscribeToChannel('heartbeat');
+    disableButton();
+    // Variable para rastrear el estado del mensaje de heartbeat
+    var timeoutId;  // Variable para almacenar el ID del temporizador
+    try {
+
+        var map = L.map('map').setView([-34.9214, -57.9545], 13);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        var marker = null;  // Variable para almacenar el marcador actual
+    
+        map.on('click', function(event) {
+            var latitud = event.latlng.lat;
+            var longitud = event.latlng.lng;
+
+            // Actualiza los campos de entrada con las coordenadas
+            document.getElementById('latitud').value = latitud;
+            document.getElementById('longitud').value = longitud;
+
+            // Eliminar el marcador anterior si existe
+            if (marker !== null) {
+                map.removeLayer(marker);
+            }
+
+            // Crear y agregar un nuevo marcador al mapa
+            marker = L.marker([latitud, longitud]).addTo(map);
+        });
+
+    } catch (error) {
+        // Manejar la excepción
+        console.error('Ocurrió una excepción:', error.message);
+    }
+socket.on('heartbeat', function(data) {
+    if (data.payload === 'A') {
+        // Si recibe un mensaje de heartbeat 'alive', habilita el botón
+        document.getElementById('llenar_boton_rfid').disabled = false;
+        document.getElementById('llenar_boton_dht').disabled = false;
+        // Reinicia el temporizador cada vez que se recibe un mensaje de heartbeat
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(disableButton, 3000);  // Deshabilita el botón después de 3 segundos
+    }
+});
+
+function disableButton() {
+    // Deshabilita el botón para escanear el RFID y DHT
+    document.getElementById('llenar_boton_rfid').disabled = true;
+    document.getElementById('llenar_boton_dht').disabled = true;
+}
+
+// Inicialmente, configura un temporizador para deshabilitar el botón después de 10 segundos
+timeoutId = setTimeout(disableButton, 1000);  // Deshabilita el botón después de 10 segundos inicialmente
+
+    // Función para suscribirse a un canal MQTT
+    function subscribeToChannel(channel) {
+        socket.emit('subscribe_mqtt_channel', { channel: channel });
+    }
+
+    // Función para desuscribirse de un canal MQTT
+    function unsubscribeFromChannel(channel) {
+        socket.emit('unsubscribe_mqtt_channel', { channel: channel });
+    }
+
+    // Escuchar eventos de mensajes RFID
+    function handleRFIDMessage(data) {
+        document.getElementById('rfid_tag').value = data['payload'];
+        unsubscribeFromChannel('rfid');
+        $(".popup, .popup-2, #overlay").hide();
+        // Eliminar el controlador después de recibir el mensaje una vez
+        socket.off('rfid', handleRFIDMessage);
+    }
+
+    // Función para manejar el clic en el botón "ESCANEAR RFID"
+    $('#llenar_boton_rfid').click(function(event) {
+        $("#overlay").show();
+        $('.popup, .popup-2').css('display', 'flex');
+        // Evitar el envío automático del formulario
+        event.preventDefault(); 
+        subscribeToChannel('rfid');
+        // Encender escaner RFID
+        socket.emit('rfid_request', { request: 'ON' });
+        // Agregar controlador para el evento 'mqtt_message'
+        socket.on('rfid', handleRFIDMessage);
+    });
+
+    // Escuchar eventos de mensajes TEMP
+    function handleTempMessage(data) {
+        document.getElementById('temperatura').value = data['payload'];
+        unsubscribeFromChannel('temp');
+        // Eliminar el controlador después de recibir el mensaje una vez
+        socket.off('temp', handleTempMessage);
+    }
+
+    // Escuchar eventos de mensajes TEMP
+    function handleHumMessage(data) {
+        document.getElementById('humedad').value = data['payload'];
+        unsubscribeFromChannel('hum');
+        // Eliminar el controlador después de recibir el mensaje una vez
+        socket.off('hum', handleTempMessage);
+    }
+
+    $('#llenar_boton_dht').click(function(event) {
+        // Evitar el envío automático del formulario
+        event.preventDefault(); 
+        subscribeToChannel('temp');
+        subscribeToChannel('hum');
+        // Encender escaner DHT
+        socket.emit('dht_request', { request: 'ON' });
+        // Agregar controlador para el evento 'mqtt_message'
+        socket.on('temp', handleTempMessage);
+        socket.on('hum', handleHumMessage);
+        // Desactivar escaner DHT
+        socket.emit('dht_request', { request: 'OFF' });
+    });
+
+    // Funcion para manejar el boton de cerrar-popup
+    $('#cerrarPopupBtn').click(function(event) {
+        unsubscribeFromChannel('rfid');
+        // Apagar escaner RFID
+        socket.emit('rfid_request', { request: 'OFF' });
+        $(".popup, .popup-2, #overlay").hide();
+    });
+});
+    
+</script>
+
+{% endblock %}

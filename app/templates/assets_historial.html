@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <!-- Sección a la derecha -->
+    {% if response %}
+        <div class="table-responsive overflow-scroll" style="height:500px;width:75vw;">
+            <!-- Hacer algo con la respuesta exitosa -->
+            <table class="table table-sm overflow-scroll table-bordered border-secondary">
+                <thead class="table-secondary">
+                    <tr>
+                        <th>ID</th>
+                        <th>Etapa</th>
+                        <th>Precio</th>
+                        <th>Bodega</th>
+                        <th>Uva</th>
+                        <th>Año</th>
+                        <th>Temperatura</th>
+                        <th>Humedad</th>
+                        <th>Latitud</th>
+                        <th>Longitud</th>
+                        <th>Historial</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for asset in response %}
+                        <tr>
+                            <td>{{ asset.ID }}</td>
+                            <td>{{ asset.Owner }}</td>
+                            <td>{{ asset.Price }}</td>
+                            <td>{{ asset.Winery }}</td>
+                            <td>{{ asset.Varietal }}</td>
+                            <td>{{ asset.Year }}</td>
+                            <td>{{ asset.Temperature }}</td>
+                            <td>{{ asset.Humidity }}</td>
+                            <td>{{ asset.Latitude }}</td>
+                            <td>{{ asset.Longitude }}</td>
+                            <td><a href="{{ url_for('asset_history', asset_id=asset.ID) }}" class="btn btn-primary">Historial</a></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% endif %}
+{% endblock %}
