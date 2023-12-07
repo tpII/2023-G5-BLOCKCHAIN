@@ -211,5 +211,22 @@ $ npm install
 $ npm run build
 ```
 
+> NO OLVIDAR EJECUTAR EL SCRIPT generateEnv.sh que está en la carpeta rest-api-typescript/scripts. Este script genera un archivo .env que se debe colocar en la carpeta principal rest-api-typescript.
+
+<p>Luego se debe inicializar el server REDIS, que se encarga de mantener la cola de tareas que le van llegando en cada transacción:</p>
+
+```sh
+$ export REDIS_PASSWORD=$(uuidgen)
+$ npm run start:redis	
+```
+
+<p>Finalmente iniciar el servidor API REST</p>
+
+```
+$ npm run start:dev
+```
+
+> Las API-KEYS correspondientes a cada organización estan en el archivo .env y deben ser enviadas en la cabecera de la petición HTTP al servidor REST para que la misma sea autorizada.
+
 </details>
 
