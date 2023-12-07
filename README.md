@@ -95,7 +95,7 @@ El Sistema de Seguimiento de la Cadena de Suministro (SSCS) es una demostración
   <summary>Prerequisitos-Mosquitto</summary>
   <p>La integración de Mosquitto en el proyecto SSCS añade una capa adicional de eficiencia y confiabilidad en la comunicación entre la aplicación web y el dispositivo IoT. Este broker MQTT gestiona la publicación y suscripción de mensajes, garantizando una transmisión de datos muy rápida.</p>
 
-  <p>Para su instalación visitar la pagina web <a href="https://mosquitto.org/">https://mosquitto.org/</a></p>
+  <p>Para su instalación visitar la pagina web <a href="https://mosquitto.org/">https://mosquitto.org/</a>.</p>
 </details>
 
 ---
@@ -109,7 +109,7 @@ El Sistema de Seguimiento de la Cadena de Suministro (SSCS) es una demostración
 
   <p>Se requieren las tecnologias listadas en <a href="https://hyperledger-fabric.readthedocs.io/en/release-2.5/prereqs.html">https://hyperledger-fabric.readthedocs.io/en/release-2.5/prereqs.html</a>, debe seguir las instrucciones de instalación de los prerequisitos dependiendo el sistema operativo que este utilizando.</p>
 
-  <p>Adicionalmente debe tener instalado NPM y NodeJS en su última versión. <a href="https://nodejs.org/en">https://nodejs.org/en</a></p>
+  <p>Adicionalmente debe tener instalado NPM y NodeJS en su última versión. <a href="https://nodejs.org/en">https://nodejs.org/en</a>.</p>
 </details>
 
 ---
@@ -122,3 +122,13 @@ El Sistema de Seguimiento de la Cadena de Suministro (SSCS) es una demostración
   <p>Se requiere descargar el .ino contenido en <a href="https://github.com/tpII/2023-G5-BLOCKCHAIN/blob/main/TP2-ESCANER-RFID/TP2-ESCANER-RFID.ino">TP2-ESCANER-RFID</a>, configurarlo con los parametros de WiFi y broker MQTT correspondientes, configurar los pines de los sensores que se utilizan y finalmente cargar el programa al microcontrolador.</p>
 </details>
 
+---
+
+<!-- Prerequisitos APLICACION WEB -->
+<h1 id="prerequisites-app-web"> ⛓️ Prerequisitos-Aplicación web</h1>
+
+<details>
+  <summary>Prerequisitos-Aplicación web</summary>
+  <p>Se requiere la última versión de python <a href="https://www.python.org/">https://www.python.org/</a>.</p>
+  <p>Se requiere tener instalada la última versión de PostgreSQL <a href="https://www.postgresql.org/">https://www.postgresql.org/</a> configurada con una base de datos llamada supply-chain-platform (de preferencia).</p>
+</details>
