@@ -107,7 +107,18 @@ El Sistema de Seguimiento de la Cadena de Suministro (SSCS) es una demostración
   <summary>Prerequisitos-Hyperledger Fabric</summary>
   <p>Hyperledger Fabric es una tecnología blockchain empresarial que proporciona una plataforma robusta y segura para la gestión de assets y transacciones en la cadena de suministro. Gracias a sus características, como la capacidad de definir permisos y roles específicos, así como su enfoque modular, Hyperledger Fabric se convierte en una opción poderosa para garantizar la transparencia y la trazabilidad en proyectos como el SSCS.</p>
 
-  <p>Se requieren las tecnologias listadas en <a href="https://hyperledger-fabric.readthedocs.io/en/release-2.5/prereqs.html">https://hyperledger-fabric.readthedocs.io/en/release-2.5/prereqs.html</a>, debe seguir las instrucciones de instalación de los prerequisitos dependiendo el sistema operativo que utilice</p>
+  <p>Se requieren las tecnologias listadas en <a href="https://hyperledger-fabric.readthedocs.io/en/release-2.5/prereqs.html">https://hyperledger-fabric.readthedocs.io/en/release-2.5/prereqs.html</a>, debe seguir las instrucciones de instalación de los prerequisitos dependiendo el sistema operativo que este utilizando.</p>
 
   <p>Adicionalmente debe tener instalado NPM y NodeJS en su última versión. <a href="https://nodejs.org/en">https://nodejs.org/en</a></p>
 </details>
+
+---
+
+<!-- Prerequisitos ESP8266 -->
+<h1 id="prerequisites-esp8266"> ⛓️ Prerequisitos-ESP8266</h1>
+
+<details>
+  <summary>Prerequisitos-ESP8266</summary>
+  <p>Se requiere descargar el .ino contenido en la carpeta /</p>
+</details>
+
