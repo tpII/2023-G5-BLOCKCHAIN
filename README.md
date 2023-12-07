@@ -56,6 +56,16 @@ El Sistema de Seguimiento de la Cadena de Suministro (SSCS) es una demostración
       <li>Biblioteca de escaner RFID RC522: permite la identificación única de productos a lo largo de la cadena de suministro mediante tecnología de identificación por radiofrecuencia.</li>
       <li>Biblioteca de DHT11: sensor de temperatura y humedad utilizado para monitorear condiciones ambientales durante la cadena de suministro.</li>
     </ul>
+    <li>Hyperledger Fabric</li>
+    <ul>
+      <li>Test-Network con 3 organizaciones: configuración de una red de prueba con tres organizaciones (una por cada agente), garantizando la simulación de un entorno empresarial diverso.</li>
+      <li>Chaincode en TypeScript: lógica de contrato inteligente implementada en TypeScript, define las reglas y la lógica de negocio en la red blockchain. En esta demostración como asset principal se utilizo al modelo de un vino.</li>
+      <li>API-REST en TypeScript: interfaz de programación de aplicaciones basada en el protocolo REST para facilitar la interacción entre la aplicación web y la red Hyperledger Fabric.</li>
+    </ul>
+    <li>Mosquitto</li>
+    <ul>
+      <li>Mosquitto: broker de MQTT de código abierto que facilita la implementación del protocolo MQTT en la arquitectura del proyecto. Actúa como intermediario entre el dispositivo IoT (ESP8266) y la aplicación web, asegurando la entrega eficiente de mensajes en la red.</li>
+    </ul>
   </ol>
 </details>
 
