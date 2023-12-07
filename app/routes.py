@@ -72,8 +72,8 @@ def login():
 
             login_user(client_user)
             print(client_user)
-            next_page = request.args.get('next', url_for('index'))
-            return redirect(next_page)
+            #next_page = request.args.get('next', url_for('index'))
+            return redirect(url_for('index'))
         # Busca si existe el username
         user = User.query.filter_by(username=form.username.data).first()
         if user is None or not user.check_password(form.password.data):
