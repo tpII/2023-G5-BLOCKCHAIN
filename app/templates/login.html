@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <section>
+        <div class="d-flex flex-column align-items-center justify-content-center text-secondary bg-primary content">
+            <img src="{{ url_for('static', filename='img/logo.png') }}" class="img-fluid pb-2 mb-4 border-bottom border-black" alt="LOGO">
+            <h1>Iniciar sesión</h1>
+            <form action="" method="post" {% if 'client_login' not in request.form %}novalidate{% endif %}>
+                {{ form.hidden_tag() }}
+                <p>
+                    {{ form.username.label }}<br>
+                    {{ form.username(size=32) }}<br>
+                    {% for error in form.username.errors %}
+                    <span style="color: red;">[{{ error }}]</span>
+                    {% endfor %}
+                </p>
+                <p>
+                    {{ form.password.label }}<br>
+                    {{ form.password(size=32) }}<br>
+                    {% for error in form.password.errors %}
+                    <span style="color: red;">[{{ error }}]</span>
+                    {% endfor %}
+                </p>
+                <p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
+                <p>{{ form.submit(class="btn btn-secondary") }}</p>
+                <p>{{ form.client_login(class="btn btn-secondary") }}</p>
+            </form>
+            <p>Sos nuevo? <a href="{{ url_for('register') }}" class="link">Clickeando aqui podes registrate!</a></p>
+        </div>
+    </section>
+{% endblock %}

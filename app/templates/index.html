@@ -1,0 +1,163 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <!-- <h1>Hola, {{ current_user.username }}!</h1> -->
+    <!-- Primer texto -->
+    <div class="content">
+        <section class="py-3">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-9">
+                        <h1 class="fw-bold text-secondary">Bienvenido {{ current_user.username.capitalize() }}</h1>
+                        <h3 class="fw-bold text-secondary">Rol: {{ current_user.role }}</h3>
+                        <p class="led text-body-secondary text-secondary">Revisa la última información</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección de números -->
+        <!--
+        <section class="bg-mix">
+            <div class="container">
+                <div class="card rounded-0">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-lg-3 d-flex stat my-3">
+                                <div class="d-flex flex-column align-items-center mx-auto">
+                                    <h6 class="text-body-secondary">Proveedores registrados</h6>        
+                                    <h3 class="fw-bold">1234</h3>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 d-flex stat my-3">
+                                <div class="d-flex flex-column align-items-center mx-auto">
+                                    <h6 class="text-body-secondary">Productores registrados</h6>        
+                                    <h3 class="fw-bold">1234</h3>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 d-flex stat my-3">
+                                <div class="d-flex flex-column align-items-center mx-auto">
+                                    <h6 class="text-body-secondary">Distribuidores registrados</h6>        
+                                    <h3 class="fw-bold">1234</h3>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 d-flex stat my-3">
+                                <div class="d-flex flex-column align-items-center mx-auto">
+                                    <h6 class="text-body-secondary">Tiendas registradas</h6>        
+                                    <h3 class="fw-bold">1234</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        -->
+
+        <!-- Sección a la derecha -->
+    <!--
+
+        <section class="bg-gray">
+            <div class="container">
+                <div class="row">
+                    ChartJS
+                    <div class="col-lg-7 my-3">
+                        <div class="card rounded-0">
+                            <div class="card-header bg-light">
+                                <h6 class="fw-bold mb-0">Cantidad de bloques creados</h6>
+                            </div>
+                            <div class="card-body">
+                                    <canvas id="myChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                     Transacciones recientes
+                    <div class="col-lg-5 my-3">
+                        <div class="card rounded-0">
+                            <div class="card-header bg-light">
+                                <h6 class="fw-bold mb-0">Transacciones recientes</h6>
+                            </div>
+                            <div class="card-body pt-2">
+                                <div class="d-flex border-bottom py-2">
+                                    <div class="d-flex me-3">
+                                        <h2 class="align-self-center mb-0"><ion-icon name="pricetag"></ion-icon></h2>
+                                    </div>
+                                    <div class="d-flex align-self-center">
+                                        <div>
+                                            <h6 class="d-inline-block mb-0">1681ffc7</h6>
+                                            <small class="d-block text-body-secondary">16:42 12/10/2023</small>
+                                        </div>
+                                        <span class="badge align-self-center text-bg-success ms-2">PRODUCER</span>
+                                    </div>
+                                </div>
+                                <div class="d-flex border-bottom py-2">
+                                    <div class="d-flex me-3">
+                                        <h2 class="align-self-center mb-0"><ion-icon name="pricetag"></ion-icon></h2>
+                                    </div>
+                                    <div class="d-flex align-self-center">
+                                        <div>
+                                            <h6 class="d-inline-block mb-0">8342c467</h6>
+                                            <small class="d-block text-body-secondary">15:42 12/10/2023</small>
+                                        </div>
+                                        <span class="badge align-self-center text-bg-primary ms-2">SHIPPER</span>
+                                    </div>
+                                </div>
+                                <div class="d-flex border-bottom py-2 mb-3">
+                                    <div class="d-flex me-3">
+                                        <h2 class="align-self-center mb-0"><ion-icon name="pricetag"></ion-icon></h2>
+                                    </div>
+                                    <div class="d-flex align-self-center">
+                                        <div>
+                                            <h6 class="d-inline-block mb-0">a09bee29</h6>
+                                            <small class="d-block text-body-secondary">15:37 12/10/2023</small>
+                                        </div>
+                                        
+                                        <span class="badge align-self-center text-bg-primary ms-2">SHIPPER</span>
+                                        
+                                    </div>
+                                </div>
+                                <buton class="btn btn-primary w-100">Ver todas</buton>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+    </div>
+     Chart.js 
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const ctx = document.getElementById('myChart');
+        
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+            labels: ['Febrero 2023', 'Marzo 2023', 'Abril 2023', 'Mayo 2023', 'Junio 2023', 'Julio 2023'],
+            datasets: [{
+                label: 'Nuevos bloques',
+                data: [12, 19, 3, 5, 2, 3],
+                backgroundColor: [
+                '#F5DD00',
+                '#F5DD00',
+                '#F5DD00',
+                '#F5DD00',
+                '#F5DD00',
+                '#F5DD00',
+                ],
+                maxBarThickness: 50,
+                borderWidth: 1
+            }]
+            },
+            options: {
+            scales: {
+                y: {
+                beginAtZero: true
+                }
+            }
+            }
+        });
+        </script>
+        !-->
+{% endblock %}

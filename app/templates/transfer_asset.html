@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="content">
+<h1> Transferir Asset </h1>
+
+<form action="" method="POST">
+    {{ form.hidden_tag() }}
+    {{ form.owner.label }}<br>
+    {{ form.owner }}
+    {{ form.transferir_boton(class="btn btn-secondary") }}
+</form>
+    
+{% endblock %}
