@@ -86,7 +86,9 @@ El Sistema de Seguimiento de la Cadena de Suministro (SSCS) es una demostración
     <li><a href="#installation-app-web"> ➤ Instalación-Aplicación Web</a></li>
     <li><a href="#roles"> ➤ Roles</a></li>
     <li><a href="#endpoints"> ➤ Endpoints API-REST</a></li>
-    <li><a href="#contributors"> ➤ Contributors</a></li>
+    <li><a href="#bitacora"> ➤ Bitácora</a></li>
+    <li><a href="#authors"> ➤ Autores</a></li>
+    <li><a href="#coordinador"> ➤ Coordinador</a></li>
   </ol>
 </details>
 
@@ -276,7 +278,11 @@ $ npm run start:dev
   ```
 </details>
 
-<h1 id="roles">Roles</h1>
+<h1 id="roles">🧙Roles</h1>
+
+
+<details>
+  <summary>Roles</summary>
 
 | Rol        | Organización |
 |------------|--------------|
@@ -284,7 +290,14 @@ $ npm run start:dev
 | Transporte | 2            |
 | Cliente    | 3            |
 
-<h1 id="endpoints">Endpoints API-REST</h1>
+</details>
+
+
+
+<h1 id="endpoints">👽Endpoints API-REST</h1>
+
+<details>
+  <summary>Endpoints API-REST</summary>
 
 | Endpoint                 | Método | Descripción                                 |
 |--------------------------|--------|---------------------------------------------|
@@ -297,4 +310,23 @@ $ npm run start:dev
 |                          | OPTION | Devuelve si existe el asset                 |
 | /assets/history/:assetID | GET    | Ver el historial de transacciones del asset |
 
+</details>
+
+<h1 id="bitacora">📖Bitácora</h1>
+
+<p>Se realizó un registro de todos los avances del proyecto en la <a src="https://github.com/tpII/2023-G5-BLOCKCHAIN/wiki/Bitacora">Bitacora</a>.</p>
+
+<h1 id="authors">✒️ Autores</h1>
+
+* **Brian Llamocca** [![Repo](https://badgen.net/badge/icon/notBraii?icon=github&label)](https://github.com/notBraii)
+
+* **Juan Martín Ercoli** [![Repo](https://badgen.net/badge/icon/Juanercoli?icon=github&label)](https://github.com/Juanercoli)
+  
+*  **Joaquín Matto** [![Repo](https://badgen.net/badge/icon/momus53?icon=github&label)](https://github.com/momus53)
+
+*  **Joaquín Stella** [![Repo](https://badgen.net/badge/icon/joaquin-stella?icon=github&label)](https://github.com/joaquin-stella)
+
+<h1 id="coordinador">📌 Coordinador</h1>
+
+* **Gaston Marón** *Profesor Taller de Proyecto II* [![Repo](https://badgen.net/badge/icon/gmaron?icon=github&label)](https://github.com/gmaron)
 
