@@ -84,6 +84,8 @@ El Sistema de Seguimiento de la Cadena de Suministro (SSCS) es una demostración
     <li><a href="#prerequisites-app-web"> ➤ Prerequisitos-Aplicación Web</a></li>
     <li><a href="#installation-hyperledger-fabric"> ➤ Instalación-Hyperledger Fabric</a></li>
     <li><a href="#installation-app-web"> ➤ Instalación-Aplicación Web</a></li>
+    <li><a href="#roles"> ➤ Roles</a></li>
+    <li><a href="#endpoints"> ➤ Endpoints API-REST</a></li>
     <li><a href="#contributors"> ➤ Contributors</a></li>
   </ol>
 </details>
@@ -273,4 +275,26 @@ $ npm run start:dev
   flask run -h 0.0.0.0 --debug
   ```
 </details>
+
+<h1 id="roles">Roles</h1>
+
+| Rol        | Organización |
+|------------|--------------|
+| Productor  | 1            |
+| Transporte | 2            |
+| Cliente    | 3            |
+
+<h1 id="endpoints">Endpoints API-REST</h1>
+
+| Endpoint                 | Método | Descripción                                 |
+|--------------------------|--------|---------------------------------------------|
+| /assets                  | GET    | Obtener todos los assets del WS             |
+|                          | POST   | Crear un nuevo asset                        |
+| /assets/:assetID         | GET    | Obtener el asset de ID :assetID             |
+|                          | PUT    | Modificar el asset                          |
+|                          | PATCH  | Transferencia de dueño del asset            |
+|                          | DELETE | Borrar el asset del WS                      |
+|                          | OPTION | Devuelve si existe el asset                 |
+| /assets/history/:assetID | GET    | Ver el historial de transacciones del asset |
+
 
