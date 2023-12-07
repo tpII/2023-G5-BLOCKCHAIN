@@ -82,6 +82,7 @@ El Sistema de Seguimiento de la Cadena de Suministro (SSCS) es una demostración
     <li><a href="#prerequisites-hyperledger-fabric"> ➤ Prerequisitos-Hyperledger Fabric</a></li>
     <li><a href="#prerequisites-esp8266"> ➤ Prerequisitos-ESP8266</a></li>
     <li><a href="#prerequisites-app-web"> ➤ Prerequisitos-Aplicación Web</a></li>
+    <li><a href="#installation-hyperledger-fabric"> ➤ Instalación-Hyperledger Fabric</a></li>
     <li><a href="#contributors"> ➤ Contributors</a></li>
   </ol>
 </details>
@@ -115,7 +116,7 @@ El Sistema de Seguimiento de la Cadena de Suministro (SSCS) es una demostración
 ---
 
 <!-- Prerequisitos ESP8266 -->
-<h1 id="prerequisites-esp8266"> ⛓️ Prerequisitos-ESP8266</h1>
+<h1 id="prerequisites-esp8266"> 🌶️ Prerequisitos-ESP8266</h1>
 
 <details>
   <summary>Prerequisitos-ESP8266</summary>
@@ -125,10 +126,26 @@ El Sistema de Seguimiento de la Cadena de Suministro (SSCS) es una demostración
 ---
 
 <!-- Prerequisitos APLICACION WEB -->
-<h1 id="prerequisites-app-web"> ⛓️ Prerequisitos-Aplicación web</h1>
+<h1 id="prerequisites-app-web"> 🕸️ Prerequisitos-Aplicación web</h1>
 
 <details>
   <summary>Prerequisitos-Aplicación web</summary>
   <p>Se requiere la última versión de python <a href="https://www.python.org/">https://www.python.org/</a>.</p>
   <p>Se requiere tener instalada la última versión de PostgreSQL <a href="https://www.postgresql.org/">https://www.postgresql.org/</a> configurada con una base de datos llamada supply-chain-platform (de preferencia).</p>
 </details>
+
+---
+
+<!-- Instalación HYPERLEDGER FABRIC -->
+<h1 id="installation-hyperledger-fabric"> ⛓️ Instalación-Hyperledger Fabric</h1>
+
+<details>
+  <summary>Instalación-Hyperledger Fabric</summary>
+  <p>El directorio principal de hyperledger fabric es <a href="https://github.com/tpII/2023-G5-BLOCKCHAIN/tree/main/fabric-supply-chain">fabric-supply-chain</a>, estando allí, debe acceder al directorio test-network</p>
+  
+  ```
+  $ cd test-network
+  ```
+
+</details>
+
