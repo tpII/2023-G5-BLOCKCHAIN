@@ -105,6 +105,7 @@
         {{ form.longitud.errors|join(', ') }}
     </div>
     {% endif %}
+    <div id="map" style="height:250px;"></div>
 
     <div class="d-flex gap-3">
     {{ form.enviar_boton(class="btn btn-secondary") }}
@@ -202,9 +203,6 @@ animation: MoveUpDown 3s ease-in-out infinite;
 }
 </style>
 
-<script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-<script src="https://cdn.socket.io/4.6.0/socket.io.min.js" integrity="sha384-c79GN5VsunZvi+Q/WObgk2in0CbZsHnjEqvFxC5DxHn9lTfNce2WW6h2pH6u/kF+" crossorigin="anonymous"></script>
-
 <script type="text/javascript" charset="utf-8">
 
 $(document).ready(function() {
@@ -214,7 +212,37 @@ $(document).ready(function() {
     disableButton();
     // Variable para rastrear el estado del mensaje de heartbeat
     var timeoutId;  // Variable para almacenar el ID del temporizador
+    try {
 
+        var map = L.map('map').setView([-34.9214, -57.9545], 13);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        var marker = null;  // Variable para almacenar el marcador actual
+    
+        map.on('click', function(event) {
+            var latitud = event.latlng.lat;
+            var longitud = event.latlng.lng;
+
+            // Actualiza los campos de entrada con las coordenadas
+            document.getElementById('latitud').value = latitud;
+            document.getElementById('longitud').value = longitud;
+
+            // Eliminar el marcador anterior si existe
+            if (marker !== null) {
+                map.removeLayer(marker);
+            }
+
+            // Crear y agregar un nuevo marcador al mapa
+            marker = L.marker([latitud, longitud]).addTo(map);
+        });
+
+    } catch (error) {
+        // Manejar la excepción
+        console.error('Ocurrió una excepción:', error.message);
+    }
 socket.on('heartbeat', function(data) {
     if (data.payload === 'A') {
         // Si recibe un mensaje de heartbeat 'alive', habilita el botón

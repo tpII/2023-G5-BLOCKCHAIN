@@ -42,33 +42,13 @@ def get_api_key():
 # Decoradores (modifican la funcion que tienen a continuación)
 # Asocian URLs con funciones
 # Indice
-@app.route('/')
 @app.route('/index')
 @login_required
 def index():
-    url = "http://192.168.0.190:3000/api/assets"
-    headers = {
-        "X-api-key": get_api_key(),
-    }
-    try:
-        response = requests.get(url, headers=headers)
-
-        if response is None:
-            raise requests.RequestException("No se recibió respuesta.")
-        if response.status_code == 200:
-            filtered_assets = [asset for asset in response.json() if asset.get('Owner') == get_org()]
-            flash(f"Respuesta de la API: EXITOSA", 'success')
-            return render_template("index.html", title='Home Page', response=filtered_assets)
-        else:
-            handle_error(response)
-            return render_template("index.html", title='Home Page', response=response)
-
-    except requests.exceptions.RequestException as e:
-        print(f"Error en la solicitud: {e}")
-
-    return render_template("index.html", title='Home Page', response=response)
+    return render_template("index.html", title='Home Page')
 
 # Iniciar sesión
+@app.route('/')
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     # Por si un usuario autenticado quiere ir a /login
@@ -97,7 +77,7 @@ def login():
         # Busca si existe el username
         user = User.query.filter_by(username=form.username.data).first()
         if user is None or not user.check_password(form.password.data):
-            flash('Usuario o contraseña invalidos')
+            flash('Usuario o contraseña invalidos', 'error')
             return redirect(url_for('login'))
         # Si existe y password correcto
         login_user(user, remember=form.remember_me.data)
@@ -112,8 +92,8 @@ def login():
 @app.route('/logout')
 def logout():
     logout_user()
-    flash('Usted ha cerrado la sesión')
-    return redirect(url_for('index'))
+    flash('Usted ha cerrado la sesión', 'success')  
+    return redirect(url_for('login'))
 
 # Registro de usuarios
 @app.route('/register', methods=['GET', 'POST'])
@@ -133,7 +113,7 @@ def register():
         db.session.add(user)
         db.session.commit()
         # Mensaje de exito
-        flash('El registro fue exitoso!')
+        flash('El registro fue exitoso!', 'success')
         return redirect(url_for('login'))
     return render_template('register.html', title='Register', form=form)
 
@@ -146,26 +126,26 @@ def handle_success(response):
 def handle_job_created(response, headers):
     job_id = response.json()['jobId']
     headers["Content-Type"] = 'text/html'
-    url = f"http://192.168.0.190:3000/api/jobs/{job_id}"
+    url = f"{os.environ.get('API_ADDRESS')}/api/jobs/{job_id}"
     response = requests.get(url, headers=headers)
     print(response.text)
     respuesta_job = response.json()
     print(respuesta_job)
 
     if "transactionError" in respuesta_job:
-        flash(f"Error en la solicitud. {respuesta_job['transactionError']}", 'danger')
+        flash(f"Error en la solicitud. {respuesta_job['transactionError']}", 'error')
     else:
         flash("La transacción se envió de forma exitosa", 'success')
 
 def handle_error(response):
     if response.status_code == 401:
-        flash("Error: No autorizado. Se requiere autenticación.", 'danger')
+        flash("Error: No autorizado. Se requiere autenticación.", 'error')
     elif response.status_code == 403:
-        flash("Error: Prohibido. No tienes permisos para acceder a este recurso.", 'danger')
+        flash("Error: Prohibido. No tienes permisos para acceder a este recurso.", 'error')
     elif response.status_code == 404:
-        flash("Error: Recurso no encontrado.", 'danger')
+        flash("Error: Recurso no encontrado.", 'error')
     else:
-        flash(f"Error en la solicitud. Código: {response.status_code}", 'danger')
+        flash(f"Error en la solicitud. Código: {response.status_code}", 'error')
 
 @app.route("/read_asset", methods=['GET', 'POST'])
 def read_asset():
@@ -174,7 +154,7 @@ def read_asset():
     if request.method == 'POST' and form.enviar_boton.data and form.validate_on_submit():
         rfid_value = form.rfid_tag.data
 
-        url = f"http://192.168.0.190:3000/api/assets/{rfid_value}"
+        url = f"{os.environ.get('API_ADDRESS')}/api/assets/{rfid_value}"
         headers = {
             "X-api-key": get_api_key(),
         }
@@ -187,13 +167,21 @@ def read_asset():
             if response.status_code == 200:
                     respuesta_api = response.json()
                     flash(f"Respuesta de la API: {respuesta_api}", 'success')
-                    return render_template('read_asset.html', form=form, respuesta_api=respuesta_api)
+                    if respuesta_api['Owner']  == "Org1MSP":
+                        respuesta_api['Owner'] = "Productor"
+                    elif respuesta_api['Owner'] == "Org2MSP":
+                        respuesta_api['Owner'] = "Transportador"
+                    elif respuesta_api['Owner'] == "Org3MSP":
+                        respuesta_api['Owner'] = "Cliente"
+                    coordenadas = []
+                    coordenadas.append({'latitude': respuesta_api['Latitude'], 'longitude': respuesta_api['Longitude']})
+                    return render_template('read_asset.html', form=form, respuesta_api=respuesta_api, coordenadas=coordenadas)
             else:
                 handle_error(response)
-                return render_template('read_asset.html', form=form)
+                return render_template('read_asset.html', title="Read",form=form)
 
         except requests.RequestException as e:
-            flash(f"Error en la solicitud: {e}", 'danger')
+            flash(f"Error en la solicitud: {e}", 'error')
 
     return render_template('read_asset.html', form=form)
 
@@ -212,7 +200,7 @@ def new_asset():
         latitud = form.latitud.data
         longitud = form.longitud.data
 
-        url = "http://192.168.0.190:3000/api/assets"
+        url = f"{os.environ.get('API_ADDRESS')}/api/assets"
         headers = {
             "X-api-key": get_api_key(),
         }
@@ -247,7 +235,7 @@ def new_asset():
 
         except requests.RequestException as e:
             print(e)
-            flash(f"Error en la solicitud: {e}", 'danger')
+            flash(f"Error en la solicitud: {e}", 'error')
 
     return render_template('new_asset.html', form=form)
 
@@ -257,7 +245,7 @@ def update_asset(asset_id):
 
     if request.method == 'POST' and form.validate_on_submit():
         # Actualiza los campos del activo con los valores del formulario
-        url = f"http://192.168.0.190:3000/api/assets/{asset_id}"
+        url = f"{os.environ.get('API_ADDRESS')}/api/assets/{asset_id}"
         headers = {
             "X-api-key": get_api_key(),
         }
@@ -301,20 +289,20 @@ def update_asset(asset_id):
                 handle_error(response)
 
         except requests.RequestException as e:
-            flash(f"Error en la solicitud: {e}", 'danger')
+            flash(f"Error en la solicitud: {e}", 'error')
 
        # Realiza una petición GET para obtener los detalles del activo
-    url = f"http://192.168.0.190:3000/api/assets/{asset_id}"
+    url = f"{os.environ.get('API_ADDRESS')}/api/assets/{asset_id}"
     headers = {
         "X-api-key": get_api_key(),
     }
-
+    
     try:
         response = requests.get(url, headers=headers)
 
         if not response.ok:
             handle_error(response)
-            flash(f"Error al obtener los detalles del activo. Código: {response.status_code}", 'danger')
+            flash(f"Error al obtener los detalles del activo. Código: {response.status_code}", 'error')
             return redirect(url_for('index'))
         response_json = response.json()
         # Crea una instancia del formulario y llena los campos con los datos del activo
@@ -328,11 +316,13 @@ def update_asset(asset_id):
         form.longitud.data = response_json['Longitude']
         form.owner.data = response_json['Owner']
 
+        coordenadas = ({'latitude': response_json['Latitude'], 'longitude': response_json['Longitude']})
+
     except requests.RequestException as e:
-        flash(f"Error en la solicitud: {e}", 'danger')
+        flash(f"Error en la solicitud: {e}", 'error')
         return redirect(url_for('index'))
 
-    return render_template('update_asset.html', form=form, asset_id=asset_id)
+    return render_template('update_asset.html', form=form, asset_id=asset_id, coordenadas=coordenadas)
 
 @app.route("/transfer_asset/<string:asset_id>", methods=['GET', 'POST'])
 def transfer_asset(asset_id):
@@ -349,7 +339,7 @@ def transfer_asset(asset_id):
 
     if request.method == 'POST' and form.validate_on_submit():
         # Actualiza los campos del activo con los valores del formulario
-        url = f"http://192.168.0.190:3000/api/assets/{asset_id}"
+        url = f"{os.environ.get('API_ADDRESS')}/api/assets/{asset_id}"
         headers = {
             "X-api-key": get_api_key(),
         }
@@ -378,13 +368,13 @@ def transfer_asset(asset_id):
                 handle_error(response)
 
         except requests.RequestException as e:
-            flash(f"Error en la solicitud: {e}", 'danger')
+            flash(f"Error en la solicitud: {e}", 'error')
 
     return render_template('transfer_asset.html', form=form, asset_id=asset_id)
 
 @app.route("/asset_history/<string:asset_id>", methods=['GET', 'POST'])
 def asset_history(asset_id):
-    url = f"http://192.168.0.190:3000/api/assets/history/{asset_id}"
+    url = f"{os.environ.get('API_ADDRESS')}/api/assets/history/{asset_id}"
     headers = {
         "X-api-key": get_api_key(),
     }
@@ -397,6 +387,7 @@ def asset_history(asset_id):
             response = response.json()
             flash(f"Respuesta de la API: EXITOSA", 'success')
         # Procesar datos antes de pasarlos a la plantilla
+            coordenadas = []
             for entry in response:
                 data = entry['data']
                 data_dict = json.loads(data)
@@ -412,8 +403,10 @@ def asset_history(asset_id):
 
                 entry['timestamp'] = timestamp.strftime('%Y-%m-%d %H:%M:%S')
                 entry['data'] = data_dict
-        
-            return render_template("asset_history.html", response=response)
+
+                coordenadas.append({'latitude': data_dict['Latitude'], 'longitude': data_dict['Longitude'], 'time': entry['timestamp'], 'owner': data_dict['Owner']})
+            coordenadas.reverse
+            return render_template("asset_history.html", response=response, coordenadas=coordenadas)
         else:
             handle_error(response)
             return render_template("asset_history.html", response=response)
@@ -422,3 +415,58 @@ def asset_history(asset_id):
         print(f"Error en la solicitud: {e}")
 
     return render_template("asset_history.html", response=response)
+
+@app.route('/assets')
+def assets():
+    url = f"{os.environ.get('API_ADDRESS')}/api/assets"
+    headers = {
+        "X-api-key": get_api_key(),
+    }
+    try:
+        response = requests.get(url, headers=headers)
+
+        if response is None:
+            raise requests.RequestException("No se recibió respuesta.")
+        if response.status_code == 200:
+            filtered_assets = [asset for asset in response.json() if asset.get('Owner') == get_org()]
+            flash(f"Respuesta de la API: EXITOSA", 'success')
+            return render_template("assets.html", response=filtered_assets)
+        else:
+            handle_error(response)
+            return render_template("assets.html", response=response)
+
+    except requests.exceptions.RequestException as e:
+        print(f"Error en la solicitud: {e}")
+
+    return render_template("assets.html", title='Assets', response=response)
+
+@app.route('/assets_historial')
+def assets_historial():
+    url = f"{os.environ.get('API_ADDRESS')}/api/assets"
+    headers = {
+        "X-api-key": get_api_key(),
+    }
+    try:
+        response = requests.get(url, headers=headers)
+
+        if response is None:
+            raise requests.RequestException("No se recibió respuesta.")
+        if response.status_code == 200:
+            flash(f"Respuesta de la API: EXITOSA", 'success')
+            response = response.json()
+            for asset in response:
+                if asset['Owner']  == "Org1MSP":
+                    asset['Owner'] = "Productor"
+                elif asset['Owner'] == "Org2MSP":
+                    asset['Owner'] = "Transportador"
+                elif asset['Owner'] == "Org3MSP":
+                    asset['Owner'] = "Cliente"
+            return render_template("assets_historial.html", response=response)
+        else:
+            handle_error(response)
+            return render_template("assets_historial.html", response=response)
+
+    except requests.exceptions.RequestException as e:
+        print(f"Error en la solicitud: {e}")
+
+    return render_template("assets_historial.html", title='Assets historial', response=response)

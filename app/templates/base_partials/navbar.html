@@ -12,9 +12,15 @@
                     {{ current_user.username }}
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end bg-primary ">
-                    <li><a class="dropdown-item dropdown-link" href="#">Mi perfíl</a></li>
-                    <li><a class="dropdown-item dropdown-link" href="#">Mi historial</a></li>
-                    <li><hr class="dropdown-divider"></li>
+                    <li class="d-md-none"><a href="{{ url_for('index') }}" class="d-block text-secondary fw-bold p-3"><ion-icon name="apps" class="me-2 lead"></ion-icon>Tablero</a></li>
+                    <li class="d-md-none"><a href="{{ url_for('read_asset') }}" class="d-block text-secondary fw-bold p-3"><ion-icon name="pricetags" class="me-2 lead"></ion-icon>Escanear</a></li>
+                    {% if current_user.role != "Cliente" %}
+                        <li class="d-md-none"><a href="{{ url_for('assets') }}" class="d-block text-secondary fw-bold p-3"><ion-icon name="layers" class="me-2 lead"></ion-icon></ion-icon>Mis assets</a></li>
+                        <li class="d-md-none"><a href="{{ url_for('assets_historial') }}" class="d-block text-secondary fw-bold p-3"><ion-icon name="globe" class="me-2 lead"></ion-icon></ion-icon>Historiales</a></li>
+                            {% if current_user.role != "Transportador" %}
+                            <li class="d-md-none"><a href="{{ url_for('new_asset') }}" class="d-block text-secondary fw-bold p-3"><ion-icon name="wine" class="me-2 lead"></ion-icon>Nuevo asset</a></li>
+                            {% endif %}
+                    {% endif %}
                     <li><a class="dropdown-item dropdown-link" href="{{ url_for('logout') }}">Cerrar sesión</a></li>
                 </ul>
                 </li>

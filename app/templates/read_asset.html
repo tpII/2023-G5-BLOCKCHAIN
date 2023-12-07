@@ -30,49 +30,60 @@ background: rgba(0,0,0, .5);
 display: none;"></div>
 
 {% if respuesta_api %}
-    <div class="d-flex flex-column mt-2 ms-5">
-        <a href="{{ url_for('update_asset', asset_id=respuesta_api.ID) }}" class="btn btn-primary">Editar</a>
-        <div class="response_field p-2">
-            <label>ID:</label>
-            <input class="form-control" id="disabledInput" type="text" placeholder="{{ respuesta_api.ID }}" disabled style="display:inline;">
+    <div class="d-flex justify-content mt-2 ms-5">
+        <div>
+            <div class="response_field p-2">
+                <label>ID:</label>
+                <input class="form-control" id="disabledInput" type="text" placeholder="{{ respuesta_api.ID }}" disabled style="display:inline;">
+            </div>
+            <div class="response_field p-2">
+                <label>Etapa:</label>
+                <input class="form-control" id="disabledInput" type="text" placeholder="{{ respuesta_api.Owner }}" disabled style="display:inline;">
+            </div>
+            <div class="response_field p-2">
+                <label>Precio:</label>
+                <input class="form-control" id="disabledInput" type="text" placeholder="${{ respuesta_api.Price }}" disabled style="display:inline;">
+            </div>
+            <div class="response_field p-2">
+                <label>Bodega:</label>
+                <input class="form-control" id="disabledInput" type="text" placeholder="{{ respuesta_api.Winery }}" disabled style="display:inline;">
+            </div>
+            <div class="response_field p-2">
+                <label>Tipo de uva:</label>
+                <input class="form-control" id="disabledInput" type="text" placeholder="{{ respuesta_api.Varietal }}" disabled style="display:inline;">
+            </div>
+            <div class="response_field p-2">
+                <label>Cosecha:</label>
+                <input class="form-control" id="disabledInput" type="text" placeholder="{{ respuesta_api.Year }}" disabled style="display:inline;">
+            </div>
+            <div class="response_field p-2">
+                <label>Temperatura:</label>
+                <input class="form-control" id="disabledInput" type="text" placeholder="{{ respuesta_api.Temperature }}&deg;C" disabled style="display:inline;">
+            </div>
+            <div class="response_field p-2">
+                <label>Humedad:</label>
+                <input class="form-control" id="disabledInput" type="text" placeholder="{{ respuesta_api.Humidity }}%" disabled style="display:inline;">
+            </div>
+            <div class="response_field p-2">
+                <label>Latitud:</label>
+                <input class="form-control" id="disabledInput" type="text" placeholder="{{ respuesta_api.Latitude }}" disabled style="display:inline;">
+            </div>
+            <div class="response_field p-2">
+                <label>Longitud:</label>
+                <input class="form-control" id="disabledInput" type="text" placeholder="{{ respuesta_api.Longitude }}" disabled style="display:inline;">
+            </div>
         </div>
-        <div class="response_field p-2">
-            <label>Dueño:</label>
-            <input class="form-control" id="disabledInput" type="text" placeholder="{{ respuesta_api.Owner }}" disabled style="display:inline;">
-        </div>
-        <div class="response_field p-2">
-            <label>Precio:</label>
-            <input class="form-control" id="disabledInput" type="text" placeholder="${{ respuesta_api.Price }}" disabled style="display:inline;">
-        </div>
-        <div class="response_field p-2">
-            <label>Bodega:</label>
-            <input class="form-control" id="disabledInput" type="text" placeholder="{{ respuesta_api.Winery }}" disabled style="display:inline;">
-        </div>
-        <div class="response_field p-2">
-            <label>Tipo de uva:</label>
-            <input class="form-control" id="disabledInput" type="text" placeholder="{{ respuesta_api.Varietal }}" disabled style="display:inline;">
-        </div>
-        <div class="response_field p-2">
-            <label>Cosecha:</label>
-            <input class="form-control" id="disabledInput" type="text" placeholder="{{ respuesta_api.Year }}" disabled style="display:inline;">
-        </div>
-        <div class="response_field p-2">
-            <label>Temperatura:</label>
-            <input class="form-control" id="disabledInput" type="text" placeholder="{{ respuesta_api.Temperature }}&deg;C" disabled style="display:inline;">
-        </div>
-        <div class="response_field p-2">
-            <label>Humedad:</label>
-            <input class="form-control" id="disabledInput" type="text" placeholder="{{ respuesta_api.Humidity }}%" disabled style="display:inline;">
-        </div>
-        <div class="response_field p-2">
-            <label>Latitud:</label>
-            <input class="form-control" id="disabledInput" type="text" placeholder="{{ respuesta_api.Latitude }}" disabled style="display:inline;">
-        </div>
-        <div class="response_field p-2">
-            <label>Longitud:</label>
-            <input class="form-control" id="disabledInput" type="text" placeholder="{{ respuesta_api.Longitude }}" disabled style="display:inline;">
+        <div>
+            {% if current_user.role != "Cliente" %}
+            <a href="{{ url_for('update_asset', asset_id=respuesta_api.ID) }}" class="btn btn-primary">Editar</a>
+            {% endif %}
+            <a href="{{ url_for('asset_history', asset_id=respuesta_api.ID) }}" class="btn btn-primary">Historial</a>
+            <a href="{{ url_for('transfer_asset', asset_id=respuesta_api.ID) }}" class="btn btn-primary">Transferir</a>
+            <div id="map" style="height:250px;"></div>
+        
         </div>
     </div>
+
 {% endif %}
 
 {% if mensaje_error %}
@@ -85,7 +96,6 @@ display: none;"></div>
 </div>
 
 <style>​
-
 .response_div {
     display: flex;
     flex-direction: column;
@@ -97,7 +107,7 @@ display: none;"></div>
 
 .response_field {
     color: black;
-    width: 35%;
+    width: 100%;
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -190,9 +200,6 @@ animation: MoveUpDown 3s ease-in-out infinite;
 
 </style>
 
-<script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-<script src="https://cdn.socket.io/4.6.0/socket.io.min.js" integrity="sha384-c79GN5VsunZvi+Q/WObgk2in0CbZsHnjEqvFxC5DxHn9lTfNce2WW6h2pH6u/kF+" crossorigin="anonymous"></script>
-
 <script type="text/javascript" charset="utf-8">
 
 $(document).ready(function() {
@@ -202,6 +209,28 @@ $(document).ready(function() {
     disableButton();
     // Variable para rastrear el estado del mensaje de heartbeat
     var timeoutId;  // Variable para almacenar el ID del temporizador
+    try {
+
+        '{% if coordenadas is defined %}'
+            var coordenadas = JSON.parse('{{ coordenadas | tojson | safe }}');
+        '{% else %}'
+            var coordenadas = [];  // O cualquier valor predeterminado que desees
+        '{% endif %}'
+        var map = L.map('map').setView([coordenadas[0].latitude, coordenadas[0].longitude], 12);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        coordenadas.forEach(function(coordenada) {
+            var marker = L.marker([coordenada.latitude, coordenada.longitude]).addTo(map);
+            marker.bindPopup("Vino");
+        });
+
+    } catch (error) {
+        // Manejar la excepción
+        console.error('Ocurrió una excepción:', error.message);
+    }
 
 socket.on('heartbeat', function(data) {
     if (data.payload === 'A') {
@@ -267,3 +296,4 @@ timeoutId = setTimeout(disableButton, 1000);  // Deshabilita el botón después 
 </script>
 
 {% endblock %}
+

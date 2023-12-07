@@ -97,6 +97,7 @@
         {{ form.longitud.errors|join(', ') }}
     </div>
     {% endif %}
+    <div id="map" style="height:250px;"></div>
 
     <div class="d-flex gap-3">
     {{ form.actualizar_boton(class="btn btn-secondary") }}
@@ -194,9 +195,6 @@ animation: MoveUpDown 3s ease-in-out infinite;
 }
 </style>
 
-<script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-<script src="https://cdn.socket.io/4.6.0/socket.io.min.js" integrity="sha384-c79GN5VsunZvi+Q/WObgk2in0CbZsHnjEqvFxC5DxHn9lTfNce2WW6h2pH6u/kF+" crossorigin="anonymous"></script>
-
 <script type="text/javascript" charset="utf-8">
 
 $(document).ready(function() {
@@ -206,6 +204,46 @@ $(document).ready(function() {
     disableButton();
     // Variable para rastrear el estado del mensaje de heartbeat
     var timeoutId;  // Variable para almacenar el ID del temporizador
+
+    try {
+
+        '{% if coordenadas is defined %}'
+            var coordenadas = JSON.parse('{{ coordenadas | tojson | safe }}');
+            console.log(coordenadas)
+        '{% else %}'
+            var coordenadas = [];  // O cualquier valor predeterminado que desees
+        '{% endif %}'
+        var map = L.map('map').setView([coordenadas.latitude, coordenadas.longitude], 12);
+        var marker_actual = L.marker([coordenadas.latitude, coordenadas.longitude], { icon: L.divIcon({ className: 'custom-marker', iconSize: [20, 20], iconAnchor: [10, 10], popupAnchor: [0, -10], html: `<div style="background-color: red; border-radius: 50%; width: 20px; height: 20px;"></div>` }) }).addTo(map);
+        marker_actual.bindPopup("Posición actual");
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        var marker = null;  // Variable para almacenar el marcador actual
+
+        map.on('click', function(event) {
+            var latitud = event.latlng.lat;
+            var longitud = event.latlng.lng;
+
+            // Actualiza los campos de entrada con las coordenadas
+            document.getElementById('latitud').value = latitud;
+            document.getElementById('longitud').value = longitud;
+
+            // Eliminar el marcador anterior si existe
+            if (marker !== null) {
+                map.removeLayer(marker);
+            }
+
+            // Crear y agregar un nuevo marcador al mapa
+            marker = L.marker([latitud, longitud]).addTo(map);
+        });
+
+    } catch (error) {
+        // Manejar la excepción
+        console.error('Ocurrió una excepción:', error.message);
+    }
 
 socket.on('heartbeat', function(data) {
     if (data.payload === 'A') {
