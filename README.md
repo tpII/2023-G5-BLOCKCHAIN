@@ -39,7 +39,7 @@ El Sistema de Seguimiento de la Cadena de Suministro (SSCS) es una demostración
 <details>
   <summary><i>💻Tecnologias utilizadas</i></summary>
   <ol>
-    <li>Interfaz web</li>
+    <li>Aplicación web</li>
     <ul>
       <li>Flask: framework de desarrollo web en Python para la construcción del servidor web</li>
       <li>HTML, CSS y JS: fundamentales para la creación de la interfaz de usuario, ofreciendo una experiencia interactiva y atractiva.</li>
@@ -48,6 +48,13 @@ El Sistema de Seguimiento de la Cadena de Suministro (SSCS) es una demostración
       <li>Leaflet: biblioteca de JavaScript para mapas interactivos, permitiendo la visualización geográfica de la cadena de suministro.</li>
       <li>WebSocket: protocolo de comunicación bidireccional que facilita la transmisión de datos en tiempo real entre el servidor y la aplicación web.</li>
       <li>MQTT: protocolo de mensajería ligero y eficiente, utilizado para la comunicación asincrónica entre la aplicación web y el dispositivo IoT.</li>
+    </ul>
+    <li>Dispositivo IoT ESP8266</li>
+    <ul>
+      <li>Biblioteca de WiFi: facilitan la conexión del ESP8266 a la red, permitiendo la comunicación con la aplicación web.</li>
+      <li>Biblioteca de MQTT: protocolo utilizado para la comunicación entre los dispositivos IoT y el servidor, asegurando una transmisión de datos eficiente.</li>
+      <li>Biblioteca de escaner RFID RC522: permite la identificación única de productos a lo largo de la cadena de suministro mediante tecnología de identificación por radiofrecuencia.</li>
+      <li>Biblioteca de DHT11: sensor de temperatura y humedad utilizado para monitorear condiciones ambientales durante la cadena de suministro.</li>
     </ul>
   </ol>
 </details>
