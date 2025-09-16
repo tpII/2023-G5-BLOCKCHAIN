@@ -324,7 +324,7 @@ $ npm run start:dev
   
 *  **Joaquín Matto** [![Repo](https://badgen.net/badge/icon/momus53?icon=github&label)](https://github.com/momus53)
 
-*  **Joaquín Stella** [![Repo](https://badgen.net/badge/icon/joaquin-stella?icon=github&label)](https://github.com/joaquin-stella)
+*  **Joaquín Stella** [![Repo](https://badgen.net/badge/icon/joaquin99?icon=github&label)](https://github.com/joaquin99)
 
 <h1 id="coordinador">📌 Coordinador</h1>
 
